@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/sellected_color"
+    tools:context=".Login.JoinUsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_height="150dp">
+        <ImageView
+            android:src="@drawable/cloud"
+            android:layout_width="80dp"
+            android:layout_height="80dp"></ImageView>
+
+        <TextView
+
+            android:text="Sign Up"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingHorizontal="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:background="@android:color/transparent"
+            android:id="@+id/emailArea"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="e-mail"
+            android:textStyle="italic"
+
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:background="#FFFFFF"
+
+            android:layout_height="2dp"/>
+
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/passwordArea1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:hint="password"
+            android:textStyle="italic"
+
+            android:background="@android:color/transparent"
+
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#FFFFFF"
+
+            android:layout_height="2dp"/>
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/passwordArea2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:hint="password check"
+            android:textStyle="italic"
+
+            android:background="@android:color/transparent"
+
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#FFFFFF"
+
+            android:layout_height="2dp"/>
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/joinBtn"
+            android:layout_margin="20dp"
+            android:background="@color/sellected_color"
+            android:text="Welcome!!"
+            android:textSize="30dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+</layout>

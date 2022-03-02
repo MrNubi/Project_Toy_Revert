@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="50dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/black"
+            android:text="@string/Login_dialog_Autologin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_dialog_loginYes"
+        android:text="@string/Yes"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_dialog_loginNo"
+        android:text= "@string/No"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</LinearLayout>

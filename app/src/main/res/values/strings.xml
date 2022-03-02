@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Project_Toy_Revert</string>
+    <string name="plaese_email">이메일을 입력해주세요</string>
+    <string name="plaese_password1">비밀번호를 입력해주세요</string>
+    <string name="plaese_password2">비밀번호 확인란을 입력해주세요</string>
+    <string name="mismatch_password">비밀번호가 서로 맞지 않습니다.</string>
+    <string name="check_password">비밀번호를 6자리 이상으로 입력해주세요</string>
+    <string name="Success">성공</string>
+    <string name="Fail">실패</string>
+    <string name="ID">아이디</string>
+    <string name="Password">비밀번호</string>
+    <string name="Find_Password1">비밀번호찾기1</string>
+    <string name="Find_Password2">비밀번호찾기2</string>
+    <string name="Login_dialog_Autologin">로그인 기록이 있습니다. 이 아이디로 로그인 할까요?</string>
+    <string name="Yes">예</string>
+    <string name="No">아니오</string>
+    <string name="check_AutoLogin">로그인 확인</string>
+
+
+</resources>
