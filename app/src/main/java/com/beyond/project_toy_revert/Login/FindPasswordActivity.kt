@@ -1,13 +1,13 @@
 package com.beyond.project_toy_revert.Login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.databinding.ActivityFindPasswordBinding
 
-class FindPasswordActivity : AppCompatActivity() {
+class FindPasswordActivity : BasicActivity() {
     private lateinit var binding : ActivityFindPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

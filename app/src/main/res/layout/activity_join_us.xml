@@ -37,8 +37,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
+        <EditText
+            android:inputType="text"
+            android:background="@android:color/transparent"
+            android:id="@+id/userNameArea"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="user name"
+            android:textStyle="italic"
+
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:background="#FFFFFF"
+
+            android:layout_height="2dp"/>
 
         <EditText
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
             android:id="@+id/emailArea"
             android:layout_width="match_parent"

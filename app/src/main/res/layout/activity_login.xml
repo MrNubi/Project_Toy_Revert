@@ -127,7 +127,19 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.642"></ImageButton>
+        app:layout_constraintVertical_bias="0.693"></ImageButton>
+
+    <CheckBox
+        android:id="@+id/autoLoginCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자동로그인"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.254"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.62" />
 
     <ImageView
         android:id="@+id/btn_find_password"
@@ -139,7 +151,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739"></ImageView>
+        app:layout_constraintVertical_bias="0.798"></ImageView>
 
     <ImageView
         android:id="@+id/btn_loginActivity_SignIn"
@@ -151,7 +163,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.838"></ImageView>
+        app:layout_constraintVertical_bias="0.86"></ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

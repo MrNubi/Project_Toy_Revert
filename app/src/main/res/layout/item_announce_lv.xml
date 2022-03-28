@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:layout_height="200dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingHorizontal="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="40dp">
+                <ImageView
+                    android:id="@+id/img_item_medal"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"></ImageView>
+                <TextView
+                    android:id="@+id/txt_item_nick"
+                    android:textColor="@color/black"
+                    android:text="닉네임"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <TextView
+                    android:id="@+id/txt_item_tagUser"
+                    android:textColor="@color/black"
+                    android:text="(유저태그)"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:id="@+id/txt_item_time"
+                    android:textColor="@color/black"
+                    android:text="작성일/시간"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <ImageView
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"></ImageView>
+            </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:text="글제목"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+        <TextView
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/black"
+            android:text="################################"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"></TextView>
+    </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:paddingTop="5dp"
+                android:paddingHorizontal="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="글 태그"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="(#일단)"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="유형 태그"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_gravity="center"
+                android:text="평가"
+                android:textSize="15dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"></Button>
+
+        </LinearLayout>
+</LinearLayout>
