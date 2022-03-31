@@ -1,5 +1,6 @@
 package com.beyond.project_toy_revert
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,8 @@ import com.beyond.project_toy_revert.util.Context_okhttp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 
 class SplashActivity : BasicActivity() {
     private lateinit var auth: FirebaseAuth
@@ -30,42 +33,64 @@ class SplashActivity : BasicActivity() {
 
 //        if(auth.currentUser?.uid == null){newUser()}
 //        else{ currentUser() }
+        val pl = object : PermissionListener {
+            override fun onPermissionGranted() {
+                Log.d("권한 허용","향")
 
-        val myHandler = Handler(Looper.getMainLooper())
+                val myHandler = Handler(Looper.getMainLooper())
 
-        myHandler.postDelayed({
-            // 자동로그인을 해도 되는가?
-            // 1) 사용자가 자동로그인 의사를 ok했는지?
-            val userAutoLogin =  Context_okhttp.getAutoLogin(mContext)
-            val userToken = Context_okhttp.getToken(mContext)
-            val userID = Context_okhttp.getID(mContext)
+                myHandler.postDelayed({
+                    // 자동로그인을 해도 되는가?
+                    // 1) 사용자가 자동로그인 의사를 ok했는지?
+                    val userAutoLogin =  Context_okhttp.getAutoLogin(mContext)
+                    val userToken = Context_okhttp.getToken(mContext)
+                    val userID = Context_okhttp.getID(mContext)
 
-            // 2) 로그인 시에 받아낸 토큰값이 지금도 유효한지?
-            // 2-1) 저장된 토큰이 있는지? (임시방편)
-            // 2-2) 그 토큰이 사용자 정보를 불러내는지? (실제)
-            //  => 2.5초 전에 미리 물어본 상태. isTokenOk에 결과가 들어있다
+                    // 2) 로그인 시에 받아낸 토큰값이 지금도 유효한지?
+                    // 2-1) 저장된 토큰이 있는지? (임시방편)
+                    // 2-2) 그 토큰이 사용자 정보를 불러내는지? (실제)
+                    //  => 2.5초 전에 미리 물어본 상태. isTokenOk에 결과가 들어있다
 
-            // Intent로 화면 이동 => 상황에 따라 다른 Intent를 만든다
-            val myIntent : Intent
+                    // Intent로 화면 이동 => 상황에 따라 다른 Intent를 만든다
+                    val myIntent : Intent
 
-            if(userAutoLogin && userToken != "TOKEN"){
-                // 둘다 ok라면, 바로 메인화면으로
-                Toast.makeText(mContext, "$userID"+"님 환영합니다", Toast.LENGTH_SHORT).show()
-                Log.d("캬옹", "$userToken")
-                Log.d("캬옹", "$userID")
-                myIntent = Intent(mContext, MainActivity::class.java)
+                    if(userAutoLogin && userToken != "TOKEN"){
+                        // 둘다 ok라면, 바로 메인화면으로
+                        Toast.makeText(mContext, "$userID"+"님 환영합니다", Toast.LENGTH_SHORT).show()
+                        Log.d("캬옹", "$userToken")
+                        Log.d("캬옹", "$userID")
+                        myIntent = Intent(mContext, MainActivity::class.java)
+                    }
+                    else{
+                        // 아니라면, 로그인 화면으로
+                        Log.d("캬옹", "$userToken")
+                        Log.d("캬옹옹", "$userID")
+                        myIntent = Intent(mContext, ConvertActivity::class.java)
+                    }
+
+                    startActivity(myIntent)
+                    finish()
+
+                }, 2500)
+
             }
-            else{
-                // 아니라면, 로그인 화면으로
-                Log.d("캬옹", "$userToken")
-                Log.d("캬옹옹", "$userID")
-                myIntent = Intent(mContext, ConvertActivity::class.java)
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(mContext, "권한이 허용되지 않았습니다.", Toast.LENGTH_SHORT).show()
+
+
             }
+        }
 
-            startActivity(myIntent)
-            finish()
+        TedPermission.create()
+            .setPermissionListener(pl)
+            .setDeniedMessage("권한을 거부하면 통화가 불가능합니다. 설정 > 권한에서 허용해주세요.")
+            .setDeniedCloseButtonText("닫기")
+            .setGotoSettingButtonText("설정으로 가기")
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET)
+            .check()
 
-        }, 2500)
+
         
 //        Handler().postDelayed({
 //            startActivity(Intent(this, ConvertActivity::class.java))
