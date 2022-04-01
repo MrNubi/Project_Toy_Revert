@@ -11,14 +11,10 @@ import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.ActivityLoginBinding
 import com.beyond.project_toy_revert.util.Context_okhttp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import org.json.JSONObject
 
 class LoginActivity : BasicActivity() {
 
-    private lateinit var auth: FirebaseAuth
 
     private lateinit var binding : ActivityLoginBinding
 
@@ -32,7 +28,11 @@ class LoginActivity : BasicActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        auth = Firebase.auth
+        val Oldid = Context_okhttp.getID(mContext)
+        if(Oldid != "ID"){
+             binding.editLoginActivityId.setText(Context_okhttp.getID(mContext))
+        }
+
         binding.autoLoginCheckBox.setOnCheckedChangeListener { compoundButton, isChecked ->
 
             Log.d("체크값변경", "${isChecked}로 변경됨")
@@ -58,10 +58,15 @@ class LoginActivity : BasicActivity() {
                     if(RcCode == "[\"token\",\"user\"]"){
                         val key = jsonObject.getString("token")
 
+
+
+
                         runOnUiThread {
                             Toast.makeText(mContext, "${inputId}님, 환영합니다!", Toast.LENGTH_SHORT).show()
                             Context_okhttp.setToken(mContext, key)
                             Context_okhttp.setID(mContext, inputId)
+
+
                             Log.d("캬옹", inputId)
                             val myIntent =  Intent(mContext, MainActivity::class.java)
                             myIntent.putExtra("id", inputId)

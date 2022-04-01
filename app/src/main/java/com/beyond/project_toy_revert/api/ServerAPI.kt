@@ -1,8 +1,7 @@
 package com.beyond.project_toy_revert.api
 
 import android.content.Context
-import com.beyond.project_toy_revert.util.ContextUtil
-import okhttp3.Interceptor
+
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +16,7 @@ class ServerAPI {
         // 서버통신담당 클래스 : 레트로핏 클래스 객체를 담을 변수
         // 아직 안만들었다면? 새로 만들고,  만들어둔게 있다면?  있는 retrofit 재활용
         private var retorfit : Retrofit? = null
-        private  val BASE_URL ="http://luckyfriends.kro.kr/rest-auth/registration/"
+        private  val BASE_URL ="http://luckyfriends.kro.kr/"
 
         fun getRetrofit(context:Context) : Retrofit{
 

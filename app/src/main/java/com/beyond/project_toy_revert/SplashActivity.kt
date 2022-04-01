@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.ActivitySplashBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
@@ -16,6 +17,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import org.json.JSONObject
 
 class SplashActivity : BasicActivity() {
     private lateinit var auth: FirebaseAuth
@@ -45,6 +47,8 @@ class SplashActivity : BasicActivity() {
                     val userAutoLogin =  Context_okhttp.getAutoLogin(mContext)
                     val userToken = Context_okhttp.getToken(mContext)
                     val userID = Context_okhttp.getID(mContext)
+                    tokenRefresh(userToken)
+
 
                     // 2) 로그인 시에 받아낸 토큰값이 지금도 유효한지?
                     // 2-1) 저장된 토큰이 있는지? (임시방편)
@@ -57,14 +61,12 @@ class SplashActivity : BasicActivity() {
                     if(userAutoLogin && userToken != "TOKEN"){
                         // 둘다 ok라면, 바로 메인화면으로
                         Toast.makeText(mContext, "$userID"+"님 환영합니다", Toast.LENGTH_SHORT).show()
-                        Log.d("캬옹", "$userToken")
-                        Log.d("캬옹", "$userID")
+
                         myIntent = Intent(mContext, MainActivity::class.java)
                     }
                     else{
                         // 아니라면, 로그인 화면으로
-                        Log.d("캬옹", "$userToken")
-                        Log.d("캬옹옹", "$userID")
+
                         myIntent = Intent(mContext, ConvertActivity::class.java)
                     }
 
@@ -84,7 +86,7 @@ class SplashActivity : BasicActivity() {
 
         TedPermission.create()
             .setPermissionListener(pl)
-            .setDeniedMessage("권한을 거부하면 통화가 불가능합니다. 설정 > 권한에서 허용해주세요.")
+            .setDeniedMessage("권한을 거부하면 사용이 불가능합니다. 설정 > 권한에서 허용해주세요.")
             .setDeniedCloseButtonText("닫기")
             .setGotoSettingButtonText("설정으로 가기")
             .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET)
@@ -97,13 +99,24 @@ class SplashActivity : BasicActivity() {
 //            finish()
 //        }, 3000)
 
-    }//onCreate
+    }
+    fun tokenRefresh(token:String){
+        serverUtil_okhttp.postTokenRefresh(token,object : serverUtil_okhttp.JsonResponseHandler_login{
+            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+                if(RcCode == "[\"token\"]"){
+                    val newToken = jsonObject.getString("token")
+                    Log.d("성공", "토큰 리프레시")
+                    Context_okhttp.setToken(mContext,newToken)
+                    Log.d("옹", "$newToken")
 
-//    fun newUser(){
-//        auth = Firebase.auth
-//
-//            Log.d("Newb", "SplashActivity")
-//
+                }
+                else{
+                    Log.d("실패", "${RcCode}")
+                }
+            }
+        })
+    }
+
 
 
 

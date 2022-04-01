@@ -108,6 +108,8 @@ class JoinUsActivity : BasicActivity() {
                         // 회원가입 성공 / 실패 분기
                         if(rqCode in "[\"token\",\"user\"]"){
                             val key = jsonObj.getString("token")
+                            val user = jsonObj.getString("user")
+
 //                            val user = jsonObj.getString("user") // 이 안에 유저프로필 있음// pref에 받을거 다 받아놔라
                             Log.d("클락", key)
 
@@ -120,6 +122,7 @@ class JoinUsActivity : BasicActivity() {
                                     Toast.makeText(mContext, "${edt_userName}님, 가입을 축하합니다!", Toast.LENGTH_SHORT).show()
                                     Context_okhttp.setToken(mContext, key)
                                     Context_okhttp.setID(mContext, edt_userName)
+
                                     val myIntent =  Intent(mContext, MainActivity::class.java)
                                     startActivity(myIntent)
                                 }}

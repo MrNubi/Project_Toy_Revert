@@ -62,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <TextView
+
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:text="글제목"
@@ -69,6 +70,8 @@
             android:layout_height="wrap_content"></TextView>
 
         <TextView
+            android:maxLines="1"
+            android:id="@+id/txt_annouceItem_titile"
             android:layout_marginHorizontal="20dp"
             android:textColor="@color/black"
             android:text="################################"
@@ -112,6 +115,7 @@
             </LinearLayout>
 
             <Button
+                android:focusable="false"
                 android:layout_gravity="center"
                 android:text="평가"
                 android:textSize="15dp"

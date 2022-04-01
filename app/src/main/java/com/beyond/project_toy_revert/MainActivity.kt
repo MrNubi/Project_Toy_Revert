@@ -2,6 +2,7 @@ package com.beyond.project_toy_revert
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
 import com.beyond.project_toy_revert.databinding.ActivityMainBinding
@@ -24,7 +25,7 @@ class MainActivity : BasicActivity() {
         binding.viewMainv2.adapter =mAdpater
         binding.tabMainTop.setupWithViewPager(binding.viewMainv2)
         binding.viewMainv2.setCurrentItem(1)
-
+        Log.d("옹", Context_okhttp.getToken(mContext))
 
 
         binding.imgMainProf.setOnClickListener {

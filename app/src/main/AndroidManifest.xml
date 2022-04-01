@@ -14,8 +14,15 @@
         android:theme="@style/Theme.Project_Toy_Revert"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".BaseActivity"
+            android:name=".board.BoardShowActivity"
             android:exported="false" />
+        <activity
+            android:name=".board.BoardWriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".board.BoardEditActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ConvertActivity"
             android:exported="false" />
