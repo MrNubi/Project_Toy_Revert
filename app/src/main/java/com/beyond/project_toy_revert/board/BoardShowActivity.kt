@@ -11,11 +11,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.ActivityBoardShowBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
+import com.bumptech.glide.Glide
 import org.json.JSONObject
 
 class BoardShowActivity : BasicActivity() {
@@ -23,13 +25,47 @@ class BoardShowActivity : BasicActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_board_show)
-
+        setImage()
         setText()
         isBtnShow(setText())
         ClickListenerSetter()
 
 
 
+
+    }
+    fun setImage(){
+        serverUtil_okhttp.getPostDataID(mContext,
+            object : serverUtil_okhttp.JsonResponseHandler_login{
+                override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+
+                Log.d("이미지즘", RcCode)
+                    if(RcCode == "200"){
+
+                        val resultPostId = jsonObject.getJSONArray("images")
+                        if (resultPostId.length() != 0){
+                            val resultPostIdDetail = resultPostId.getJSONObject(0)
+                            val imgUrl = resultPostIdDetail.getString("image")
+
+                            Log.d("이미지즘", imgUrl)
+                           runOnUiThread{
+                               binding.getImageArea.isVisible = true
+                               Glide.with(mContext).load(imgUrl).into(binding.getImageArea)
+                           }
+                        }
+                        else{
+
+                        }
+
+
+                    }
+                      else{
+                          val detail = jsonObject.getString("detail")
+                        Toast.makeText(mContext, "${detail}", Toast.LENGTH_SHORT).show()
+                      }
+
+                }
+            })
 
     }
     fun setText():String{
@@ -48,7 +84,7 @@ class BoardShowActivity : BasicActivity() {
         binding.txtBshowContent.text=AnnounceContent
         binding.txtBshowTime.text=AnnounceNickname
 
-        return AnnounceNickname
+        return AnnounceAuthor
     }//setText()
     fun isBtnShow(nick:String){
         serverUtil_okhttp.getUserDetail(mContext, object : serverUtil_okhttp.JsonResponseHandler_login{
@@ -83,12 +119,15 @@ class BoardShowActivity : BasicActivity() {
 
             }
 
-            alertDialog.findViewById<Button>(R.id.btn_dialog_del)?.setOnClickListener {
-
-
+            alertDialog.findViewById<Button>(R.id.btn_dialog_del)?.setOnClickListener{
 
 
             }
         }
+    }
+    override fun onBackPressed() {
+        val bwintent = Intent(mContext, MainActivity::class.java)
+
+        startActivity(bwintent)
     }
 }

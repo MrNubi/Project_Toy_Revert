@@ -1,6 +1,8 @@
 package com.beyond.project_toy_revert.api
 
 import android.content.Context
+import com.beyond.project_toy_revert.util.Context_okhttp
+import okhttp3.Interceptor
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -31,29 +33,29 @@ class ServerAPI {
                 // 자동으로 토큰을 첨부하도록
                 // retrofit 변수를 통해서 API통신을 시작하기 직전에, 통신 정보를 먼저 가로챈다
                 // 가로챈 통신 정보에서, 무조건 헤더에 토큰을 첨부해두고, 나머지 작업을 이어가도록
-//                val interceptor =  Interceptor{
-//                    with(it){
-//
-//                        // 기존의 request에, 헤더를 추가해주자
-//                        val newRequest = request().newBuilder()
-//                            .addHeader("X-Http-Token", ContextUtil.getLoginUserToken(context))
-//                            .build()
-//
-//                        // 다시 하려던 일을 이어가도록
-//                        proceed(newRequest)
-//                    }
-//                }
+                val interceptor =  Interceptor{
+                    with(it){
 
-                // 만들어낸 인터샙터를 활용하도록 세팅
-                // 레트로핏이 사용하는 클라이언트 객체를 수정
+                        // 기존의 request에, 헤더를 추가해주자
+                        val newRequest = request().newBuilder()
+                            .addHeader("Authorization", "JWT ${Context_okhttp.getToken(context)}")
+                            .build()
+
+                        // 다시 하려던 일을 이어가도록
+                        proceed(newRequest)
+                    }
+                }
+
+//                 만들어낸 인터샙터를 활용하도록 세팅
+//                 레트로핏이 사용하는 클라이언트 객체를 수정
                 val myClient = OkHttpClient.Builder()
-//                    .addInterceptor(interceptor)
+                    .addInterceptor(interceptor)
                     .build()
                     
                 retorfit = Retrofit.Builder()
                     .baseUrl(BASE_URL)  // 어느 서버를 기반으로 움직일건지
                     .addConverterFactory(GsonConverterFactory.create())  //gson라이브러리와 결합
-//                    .client(myClient)  // 인터샙터를 부착해둔 클라이언트로 통신하도록
+                    .client(myClient)  // 인터샙터를 부착해둔 클라이언트로 통신하도록
                     .build()
             }
 

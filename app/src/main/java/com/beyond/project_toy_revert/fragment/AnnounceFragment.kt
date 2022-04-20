@@ -15,6 +15,7 @@ import com.beyond.project_toy_revert.board.BoardWriteActivity
 import com.beyond.project_toy_revert.databinding.FragmentAnnounceBinding
 import com.beyond.project_toy_revert.datas.AnnounceDataModel
 import com.beyond.project_toy_revert.inheritance.BaseFragment
+import com.beyond.project_toy_revert.util.Context_okhttp
 import org.json.JSONObject
 
 
@@ -57,6 +58,8 @@ class AnnounceFragment : BaseFragment() {
                 intent.putExtra("AnnounceNickname", AnnounceList[i].nickname)
                 intent.putExtra("AnnounceAuthor", AnnounceList[i].author)
                 intent.putExtra("AnnounceId", AnnounceList[i].id.toString())
+                Context_okhttp.setPostId(mContext, AnnounceList[i].id.toString())
+                Log.d("체킹", Context_okhttp.getPostId(mContext))
 
                 startActivity(intent)
                 activity?.finish()

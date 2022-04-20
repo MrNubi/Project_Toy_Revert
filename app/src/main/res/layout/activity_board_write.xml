@@ -16,8 +16,8 @@
         android:layout_marginVertical="30dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/cloud"
-        android:layout_width="200dp"
-        android:layout_height="200dp"></ImageView>
+        android:layout_width="100dp"
+        android:layout_height="100dp"></ImageView>
 
     <EditText
         android:layout_marginHorizontal="20dp"
@@ -28,7 +28,7 @@
         android:textColorHint="@color/white"
         android:textSize="30dp"></EditText>
     <EditText
-        android:layout_marginVertical="30dp"
+        android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="20dp"
         android:id="@+id/edt_Bwrite_content"
         android:layout_width="match_parent"
@@ -37,12 +37,20 @@
         android:lines="3"
         android:textColorHint="@color/white"
         android:textSize="30dp"></EditText>
+    <ImageView
+        android:id="@+id/img_Bwrite_cam"
+        android:layout_marginVertical="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/camera_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"></ImageView>
     <Button
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="push"
         android:id="@+id/btn_Bwrite_push"></Button>
+
 
 </LinearLayout>
 </layout>

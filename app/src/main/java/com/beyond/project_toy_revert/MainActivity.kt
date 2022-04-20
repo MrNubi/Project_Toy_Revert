@@ -3,6 +3,7 @@ package com.beyond.project_toy_revert
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
 import com.beyond.project_toy_revert.databinding.ActivityMainBinding
@@ -53,4 +54,14 @@ class MainActivity : BasicActivity() {
 //            startActivity(myIntent)
 //        }
     }
+    var mBackWait: Long = 0
+    override fun onBackPressed() {
+        // 뒤로가기버튼클릭
+
+        if (System.currentTimeMillis() - mBackWait >= 2000) {
+            mBackWait = System.currentTimeMillis()
+            Toast.makeText(baseContext, "한번더누르시면종료됩니다", Toast.LENGTH_SHORT).show()
+        } else {moveTaskToBack(true);
+            finishAndRemoveTask();
+            android.os.Process.killProcess(android.os.Process.myPid());}}
 }
