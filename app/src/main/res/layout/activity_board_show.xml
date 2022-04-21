@@ -66,7 +66,6 @@
                                 android:layout_margin="10dp"
                                 android:layout_marginRight="20dp"
                                 android:src="@drawable/leaf_toy"
-                                android:visibility="visible"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,7 +115,7 @@
                     <TextView
                         android:id="@+id/txt_Bshow_content"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="150dp"
                         android:layout_margin="20dp"
                         android:background="@drawable/background"
                         android:backgroundTint="#90DCFF"
@@ -124,51 +123,46 @@
 
                         android:text="여기는 내용 영역"
                         android:textColor="@color/black" />
-
-                    <ListView
-
-                        android:id="@+id/LV_Bshow_commentLV"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="600dp" />
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:gravity="right">
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/lottie_Bshow_heart"
+                            app:lottie_autoPlay="false"
+                            app:lottie_loop="false"
+                            app:lottie_rawRes="@raw/heart"></com.airbnb.lottie.LottieAnimationView>
 
-                    <Button
-                        android:id="@+id/btn_Bshow_more"
+                        <Button
+                            android:id="@+id/btn_Bshow_Like"
+                            android:layout_marginRight="20dp"
+                            android:text="Like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"></Button>
+                        <Button
+                        android:visibility="gone"
+                        android:id="@+id/btn_Bshow_disLike"
+                        android:text="Like"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="80dp"
+                        android:layout_height="match_parent"></Button>
 
-                        android:text="More"></Button>
+
+
+                    </LinearLayout>
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/view_mainv2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
+
 
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
-            <LinearLayout
-                android:background="@drawable/background"
-                android:backgroundTint="#FF5722"
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
 
-                android:layout_height="60dp">
-
-                <EditText
-                    android:id="@+id/edt_Bshow_comment"
-                    android:hint=" 댓글을 입력해주세요"
-                    android:textColorHint="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="320dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"/>
-
-                <ImageView
-                    android:id="@+id/btn_Bshow_commentPush"
-                    android:src="@drawable/btn_pen2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
 
         </RelativeLayout>
 

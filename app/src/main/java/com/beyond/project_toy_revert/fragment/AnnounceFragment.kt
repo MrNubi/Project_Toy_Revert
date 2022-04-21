@@ -58,6 +58,7 @@ class AnnounceFragment : BaseFragment() {
                 intent.putExtra("AnnounceNickname", AnnounceList[i].nickname)
                 intent.putExtra("AnnounceAuthor", AnnounceList[i].author)
                 intent.putExtra("AnnounceId", AnnounceList[i].id.toString())
+                intent.putExtra("AnnounceLike", AnnounceList[i].isLike.toString())
                 Context_okhttp.setPostId(mContext, AnnounceList[i].id.toString())
                 Log.d("체킹", Context_okhttp.getPostId(mContext))
 
@@ -84,7 +85,7 @@ class AnnounceFragment : BaseFragment() {
     }//setupEvents
 
     fun getListDataAndAdapterSetting(){
-        serverUtil_okhttp.getPostData(object : serverUtil_okhttp.JsonResponseHandler_login{
+        serverUtil_okhttp.getPostData(mContext, object : serverUtil_okhttp.JsonResponseHandler_login{
             override fun onResponse(jsonObject: JSONObject, RcCode: String) {
                 Log.d("히얼", RcCode)
                 if(RcCode == "[\"count\",\"next\",\"previous\",\"results\"]"){
@@ -99,6 +100,8 @@ class AnnounceFragment : BaseFragment() {
                             json_objdetail.getString("nickname"),
                             json_objdetail.getString("title"),
                             json_objdetail.getString("content"),
+                            json_objdetail.getBoolean("is_like"),
+
                         )
                         AnnounceList.add(Data)
                     }//for

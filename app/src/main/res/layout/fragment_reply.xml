@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".fragment.AnnounceFragment">
+
+   <TextView
+       android:id="@+id/txt_replyFrag_refresh"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="40dp"
+      android:text="Reply"></TextView>
+   <LinearLayout
+       android:background="@drawable/background"
+       android:backgroundTint="#FF5722"
+       android:layout_width="match_parent"
+       android:layout_alignParentBottom="true"
+
+       android:layout_height="60dp">
+
+      <EditText
+          android:id="@+id/edt_replyFrag_comment"
+          android:hint=" 댓글을 입력해주세요"
+          android:textColorHint="#FFFFFF"
+          android:layout_marginLeft="10dp"
+          android:layout_width="320dp"
+          android:layout_height="match_parent"
+          android:background="@android:color/transparent"/>
+
+      <ImageView
+          android:id="@+id/btn_replyFrag_commentPush"
+          android:src="@drawable/btn_pen2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+   </LinearLayout>
+
+
+   <ListView
+       android:focusable="false"
+       android:id="@+id/LV_replyFrag"
+       android:layout_width="match_parent"
+       android:layout_weight="1"
+       android:layout_height="0dp">
+
+   </ListView>
+
+
+
+</LinearLayout>
+
+</layout>

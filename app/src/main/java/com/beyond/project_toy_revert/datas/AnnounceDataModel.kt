@@ -6,6 +6,7 @@ class AnnounceDataModel(
     val nickname : String,
     val title : String,
     val content : String,
+    val isLike : Boolean,
 
 
 

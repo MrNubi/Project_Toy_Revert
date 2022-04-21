@@ -72,7 +72,8 @@ class BoardWriteActivity : BasicActivity() {
             apiList.postRequestWrite(
                 bwTilteSpaceCheck,
                 bwContentSpaceCheck,
-                multiPartBody
+                multiPartBody,
+                "#하이"
             ).enqueue(object : Callback<PostData>{
                 override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
                     Log.d("이미지", response.toString())
