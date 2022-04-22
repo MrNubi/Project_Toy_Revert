@@ -17,7 +17,7 @@ import com.beyond.project_toy_revert.inheritance.BaseFragment
 import org.json.JSONObject
 
 
-class ReplyFragment : BaseFragment() {
+class Re_ReplyFragment : BaseFragment() {
     private lateinit var binding : FragmentReplyBinding
 
     private var replyList = mutableListOf<replyDataModel>()
@@ -39,7 +39,7 @@ class ReplyFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         getReplyData()
         setValues()
-        setupEvents()
+//        setupEvents()
 
     }
 
@@ -65,13 +65,14 @@ class ReplyFragment : BaseFragment() {
             })
         }//btnReplyFragCommentPush.sOCL
         binding.LVReplyFrag.setOnItemClickListener { adapterView, view, i, l ->
-//                action_replyFragment_to_re_ReplyFragment
+
 
         }
 
     }
 
     override fun setValues() {
+
     }
 
     fun getReplyData(){

@@ -5,15 +5,33 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+
     android:background="@color/white"
     tools:context=".fragment.HitFragment">
 
+    <TextView
+        android:textSize="40dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="HIT"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></TextView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_HitRecycler"
+        android:id="@+id/recycler_like_HitRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:textSize="40dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="Best3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_best3_HitRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
 </layout>

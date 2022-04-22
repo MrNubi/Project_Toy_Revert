@@ -61,7 +61,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
+    def nav_version = "2.4.1"
 
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation("com.louiscad.splitties:splitties-activities:3.0.0-alpha06")

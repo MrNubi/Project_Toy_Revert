@@ -81,17 +81,21 @@
                     </LinearLayout>
 
                     <TextView
+                        android:paddingRight="20dp"
+                        android:textColor="@color/black"
                         android:id="@+id/txt_Bshow_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="right"
+                        android:textStyle="bold"
                         android:text="time" />
 
                     <ImageView
                         android:id="@+id/getImageArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/background"
@@ -115,11 +119,11 @@
                     <TextView
                         android:id="@+id/txt_Bshow_content"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:layout_margin="20dp"
                         android:background="@drawable/background"
                         android:backgroundTint="#90DCFF"
-                        android:padding="10dp"
+                        android:paddingHorizontal="10dp"
 
                         android:text="여기는 내용 영역"
                         android:textColor="@color/black" />
@@ -135,7 +139,19 @@
                             app:lottie_autoPlay="false"
                             app:lottie_loop="false"
                             app:lottie_rawRes="@raw/heart"></com.airbnb.lottie.LottieAnimationView>
-
+                        <TextView
+                            android:layout_width="20dp"
+                            android:text="="
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:layout_height="match_parent"></TextView>
+                        <TextView
+                            android:id="@+id/txt_Bsow_likeCount"
+                            android:layout_width="50dp"
+                            android:text="many"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:layout_height="match_parent"></TextView>
                         <Button
                             android:id="@+id/btn_Bshow_Like"
                             android:layout_marginRight="20dp"
@@ -153,10 +169,13 @@
 
                     </LinearLayout>
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/view_mainv2"
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fragment_bShow_reply"
+                        android:name="androidx.navigation.fragment.NavHostFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
+                        android:layout_height="match_parent"
+                        app:defaultNavHost="true"
+                        app:navGraph="@navigation/nav"></androidx.fragment.app.FragmentContainerView>
 
 
                 </LinearLayout>
