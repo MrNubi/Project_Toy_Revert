@@ -77,9 +77,27 @@ class AnnounceFragment : BaseFragment() {
                 activity?.finish()
 
             }}
-            binding.txtRefresh.setOnClickListener {
-                getListDataAndAdapterSetting()
+            binding.txtLike.setOnClickListener {
+
+                AnnounceList.sortBy {it.isLike}
+                AnnounceList.reverse()
+                AFAdapter.notifyDataSetChanged()
             }
+        binding.txtRecent.setOnClickListener {
+            AnnounceList.sortBy {it.id}
+            AnnounceList.reverse()
+            AFAdapter.notifyDataSetChanged()
+        }
+        binding.txtMy.setOnClickListener {
+            val currentID = Context_okhttp.getID(mContext)
+
+            AnnounceList.sortedBy{currentID == it.author}
+
+
+
+            AFAdapter.notifyDataSetChanged()
+
+        }
 
 
     }//setupEvents
@@ -101,6 +119,7 @@ class AnnounceFragment : BaseFragment() {
                             json_objdetail.getString("title"),
                             json_objdetail.getString("content"),
                             json_objdetail.getBoolean("is_like"),
+//                            json_objdetail.getInt("like_count"),
 
                         )
                         AnnounceList.add(Data)

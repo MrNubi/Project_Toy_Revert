@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.beyond.project_toy_revert.R
+import com.beyond.project_toy_revert.adapter.HitRecyclerAdapter
+import com.beyond.project_toy_revert.datas.HitRecyclerDataModel
 import com.beyond.project_toy_revert.inheritance.BaseFragment
 
 
 class HitFragment : BaseFragment() {
-
+private lateinit var HitAdapter : HitRecyclerAdapter
+private lateinit var HITlist : MutableList<HitRecyclerDataModel>
 
 
     override fun onCreateView(

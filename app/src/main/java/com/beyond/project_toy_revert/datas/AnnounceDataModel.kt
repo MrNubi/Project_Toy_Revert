@@ -7,6 +7,7 @@ class AnnounceDataModel(
     val title : String,
     val content : String,
     val isLike : Boolean,
+//    val likeCount: Int,
 
 
 

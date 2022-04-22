@@ -7,14 +7,34 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".fragment.AnnounceFragment">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
    <TextView
-       android:id="@+id/txt_refresh"
+       android:id="@+id/txt_Like"
        android:textColor="@color/black"
        android:gravity="center"
-       android:layout_width="match_parent"
-       android:layout_height="100dp"
-      android:text="Announce"></TextView>
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+      android:text="Like"></TextView>
+   <TextView
+       android:id="@+id/txt_recent"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+       android:text="Recent"></TextView>
+   <TextView
+       android:id="@+id/txt_My"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+       android:text="My"></TextView>
+</LinearLayout>
 
 
    <ListView

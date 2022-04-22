@@ -3,13 +3,14 @@ package com.beyond.project_toy_revert.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.datas.AnnounceDataModel
 
-class AnnounceListAdapter(val boardList : MutableList<AnnounceDataModel>) : BaseAdapter() {
+ class AnnounceListAdapter(val boardList : MutableList<AnnounceDataModel>) :
+     BaseAdapter()
+//     Filterable
+ {
     override fun getCount(): Int {
         return boardList.size
     }
@@ -39,4 +40,9 @@ class AnnounceListAdapter(val boardList : MutableList<AnnounceDataModel>) : Base
 
         return view!!
     }
-}
+
+//     override fun getFilter(): Filter {
+//
+//     }
+
+ }
