@@ -90,6 +90,12 @@
                         android:gravity="right"
                         android:textStyle="bold"
                         android:text="time" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_Bshow_multi"
+                        android:visibility="gone"
+                        android:layout_width="210dp"
+                        android:layout_height="210dp"
+                        android:layout_gravity="center"></androidx.recyclerview.widget.RecyclerView>
 
                     <ImageView
                         android:id="@+id/getImageArea"

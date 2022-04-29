@@ -36,12 +36,6 @@ class BoardShowActivity : BasicActivity() {
 //        setText()
         editDialogBtn()
 
-
-
-
-
-
-
     }
     fun setPage() {
         serverUtil_okhttp.getPostDataID(mContext,
@@ -188,7 +182,6 @@ class BoardShowActivity : BasicActivity() {
                             val myIdResult = jsonObject.getString("${myID}")
                             runOnUiThread {
                                 binding.txtBsowLikeCount.text = likeCount.toString()
-
                                 val animator = ValueAnimator.ofFloat(0.17f, 0f).setDuration(170)
                                 animator.addUpdateListener {
                                     binding.lottieBshowHeart.progress = it.animatedValue as Float
@@ -197,13 +190,8 @@ class BoardShowActivity : BasicActivity() {
                                 is_like = false // 다시 false로 된다.
                                 Log.d("좋아요", "Bhow / 좋아요 버튼이 꺼짐")
                             }//runOnUiThread
-
                         }
-
-
-
                     }})//onResponse
-
             }//else
         }
     }
@@ -214,7 +202,6 @@ class BoardShowActivity : BasicActivity() {
         val AnnounceAuthor = intent.getStringExtra("AnnounceAuthor").toString()
         Log.d("btnShow_id", id)
         Log.d("btnShow_AnnounceAuthor", AnnounceAuthor)
-
         if(id != AnnounceAuthor){
             binding.imgBshowEditOrDel.visibility = GONE
         }
@@ -224,14 +211,11 @@ class BoardShowActivity : BasicActivity() {
             val mBuilder = AlertDialog.Builder(mContext)
                 .setView(mDialogView)
                 .setTitle("수정 / 삭제")
-
             val alertDialog = mBuilder.show()
             alertDialog.findViewById<Button>(R.id.btn_dialog_edit)?.setOnClickListener {
                 startActivity(Intent(mContext, BoardEditActivity::class.java))
                 finish()
-
             }
-
             alertDialog.findViewById<Button>(R.id.btn_dialog_del)?.setOnClickListener{
                 serverUtil_okhttp.deleteAnnounce(mContext, object : serverUtil_okhttp.JsonResponseHandler_del{
                     override fun onResponse(RcCode: String) {
@@ -250,16 +234,13 @@ class BoardShowActivity : BasicActivity() {
                                 Toast.makeText(mContext, "에러: ${RcCode}", Toast.LENGTH_SHORT).show()
                             }
                         }
-
                     }
                 })
-
             }
         }
     }
     override fun onBackPressed() {
         val bwIntent = Intent(mContext, MainActivity::class.java)
-
         startActivity(bwIntent)
     }
 
