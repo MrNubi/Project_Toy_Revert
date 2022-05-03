@@ -22,7 +22,9 @@ import com.beyond.project_toy_revert.databinding.ActivityBoardShowBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
+import org.json.JSONArray
 import org.json.JSONObject
+import java.util.ArrayList
 
 class BoardShowActivity : BasicActivity() {
     private lateinit var binding: ActivityBoardShowBinding
@@ -44,8 +46,9 @@ class BoardShowActivity : BasicActivity() {
 
                 Log.d("이미지즘", RcCode)
                     if(RcCode == "200"){
-
-                        val resultPostId = jsonObject.getJSONArray("images")
+                        val imgORtxt = jsonObject.get("images")
+                        val resultPostId =if(imgORtxt is JSONArray) jsonObject.getJSONArray("images") else ""
+                        val resultLength = if(resultPostId is JSONArray)resultPostId.length() else 0
                         val bShowTitle = jsonObject.getString("title")
                         val bShowContent = jsonObject.getString("content")
                         val bShowAuthor = jsonObject.getString("author")
@@ -56,12 +59,12 @@ class BoardShowActivity : BasicActivity() {
                         binding.txtBshowContent.text= bShowContent
                         binding.txtBshowTime.text= bShowAuthor
                         binding.txtBsowLikeCount.text= likeCount.toString()
-                        if (resultPostId.length() != 0){
-                            val resultPostIdDetail = resultPostId.getJSONObject(0)
-                            val imgUrl = resultPostIdDetail.getString("image")
+                        if (resultLength != 0){
+                            val resultPostIdDetail = if(resultPostId is JSONArray)resultPostId.getJSONObject(0) else ""
+                            val imgUrl = if(resultPostIdDetail is JSONObject)resultPostIdDetail.getString("image") else R.drawable.cloud
 
 
-                            Log.d("이미지즘", imgUrl)
+                            Log.d("이미지즘", imgUrl.toString())
 
 
 

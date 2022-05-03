@@ -15,6 +15,8 @@ import com.beyond.project_toy_revert.databinding.FragmentHitBinding
 import com.beyond.project_toy_revert.datas.AnnounceDataModel
 import com.beyond.project_toy_revert.datas.HitRecyclerDataModel
 import com.beyond.project_toy_revert.inheritance.BaseFragment
+import com.google.gson.JsonArray
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -67,22 +69,27 @@ private lateinit var best3Adapter : HitRecyclerAdapter
 
                         for(i in 0..size-1){
                         var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
-                            val resultPostId = json_objdetail.getJSONArray("images")
-                                var imgUrl = if(resultPostId.length() != 0)resultPostId.getJSONObject(0).getString("image")else ""
-
-                        var Data : HitRecyclerDataModel = HitRecyclerDataModel(
-
-
-                            json_objdetail.getString("title"),
-                            json_objdetail.getInt("like_count"),
-                            imgUrl ,
-                            json_objdetail.getInt("id"),
-
+                            val resultPostType = json_objdetail.get("images")
+                            if(resultPostType is JSONArray) {
+                                val resultPostId = json_objdetail.getJSONArray("images")
+                                var responseName = resultPostId.getJSONObject(0).names()
+                                Log.d("nami", responseName.toString())
+                                var imgUrl =
+                                    if (resultPostId.length() != 0) resultPostId.getJSONObject(0)
+                                        .getString("image") else ""
+                                var Data: HitRecyclerDataModel = HitRecyclerDataModel(
 
 
-                            )
+                                    json_objdetail.getString("title"),
+                                    json_objdetail.getInt("like_count"),
+                                    imgUrl,
+                                    json_objdetail.getInt("id"),
 
-                            HITlist.add(Data)
+
+                                    )
+
+                                HITlist.add(Data)
+                            }//if(jsonarray)
                     }//for
 
                         HITlist.sortBy {it.hitLike}
@@ -112,8 +119,12 @@ private lateinit var best3Adapter : HitRecyclerAdapter
 
                     for(i in 0..size-1){
                         var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
-                        val resultPostId = json_objdetail.getJSONArray("images")
-                        var imgUrl = if(resultPostId.length() != 0)resultPostId.getJSONObject(0).getString("image")else ""
+                        val resultPostId = json_objdetail.get("images")
+                        if(resultPostId is JsonArray){
+                            val resultLikeArray = json_objdetail.getJSONArray("images")
+                            var imgUrl = if(resultLikeArray.length() != 0)resultLikeArray.getJSONObject(0).getString("image")else ""
+
+
 
                         var Data : HitRecyclerDataModel = HitRecyclerDataModel(
 
@@ -128,6 +139,21 @@ private lateinit var best3Adapter : HitRecyclerAdapter
                             )
 
                         bestNumlist.add(Data)
+                        }   //if(jsonARRAY)
+                        else{
+                            var Data : HitRecyclerDataModel = HitRecyclerDataModel(
+
+
+                                json_objdetail.getString("title"),
+                                json_objdetail.getInt("like_count"),
+                                "",
+                                json_objdetail.getInt("id"),
+
+
+
+                                )
+                            bestNumlist.add(Data)
+                        }//else
                     }//for
                     bestNumlist.sortBy {it.hitLike}
 

@@ -11,8 +11,8 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface APIList {
-
     // BASE_URL 에 해당하는 서버에서, 어떤 기능들을 사용할건지 명시
+
 
 
     @Multipart
