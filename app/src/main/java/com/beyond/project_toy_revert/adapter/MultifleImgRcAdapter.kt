@@ -24,24 +24,24 @@ import kotlinx.coroutines.withContext
 class MultifleImgRcAdapter(val multiList: MutableList<MultifleImgDataModel>): RecyclerView.Adapter<MultifleImgRcAdapter.ViewHolder>() {
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val multiImg = itemView.findViewById<ImageView>(R.id.img_itemrc_multifile) // 이미지
-        val multiVidio = itemView.findViewById<PlayerView>(R.id.exo_itemrc_multifle)// 비디오
+//        val multiVidio = itemView.findViewById<PlayerView>(R.id.exo_itemrc_multifle)// 비디오
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewMulti= LayoutInflater.from(parent.context).inflate(R.layout.item_rv_multifile, parent, false )
         return(ViewHolder(viewMulti)).apply {
-            multiVidio.setOnClickListener {
-                val url = multiList[position].url
-                var player = SimpleExoPlayer.Builder(context).build()
-                multiVidio.player = player
-                val dataSourceFactory = DefaultDataSourceFactory(context)
-                val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
-                player?.setMediaSource(mediaSource)
-                player?.prepare()
-                player?.play()
+//            multiVidio.setOnClickListener {
+//                val url = multiList[position].url
+//                var player = SimpleExoPlayer.Builder(context).build()
+//                multiVidio.player = player
+//                val dataSourceFactory = DefaultDataSourceFactory(context)
+//                val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+//                    .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
+//                player?.setMediaSource(mediaSource)
+//                player?.prepare()
+//                player?.play()
 
-            }
+//            }
         }
 
     }
@@ -50,7 +50,7 @@ class MultifleImgRcAdapter(val multiList: MutableList<MultifleImgDataModel>): Re
         val multiURL = multiList.get(position).url
 
         if(multiURL!=""){
-            Glide.with(TedPermissionProvider.context).load(multiList.get(position).url).into(holder.multiImg)}
+            Glide.with(context).load(multiList.get(position).url).into(holder.multiImg)}
         else{holder.multiImg.isVisible = false}
 
 

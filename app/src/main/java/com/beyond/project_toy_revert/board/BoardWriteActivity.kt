@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
@@ -39,8 +40,12 @@ class BoardWriteActivity : BasicActivity() {
 
     private var imgClicked = false
     private var imgClickedInt = 1
+    private var imgStyle = "none"
     //1 -> 초기값(imgClicked == false), false 2 -> img 1clicked(imgClicked == true) , 3-> img 2Clicked(imgClicked == false)
     val CAMERA_CODE = 98
+    val intentActionPick = 100
+    val imgUrlList = mutableListOf<Uri>()
+    val images = ArrayList<MultipartBody.Part>()
 
     private lateinit var binding : ActivityBoardWriteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,28 +58,11 @@ class BoardWriteActivity : BasicActivity() {
                 dialogChoicePictureType()
             }
             if(imgClickedInt==2){
-                val mDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_login_intro, null)
-                val mBuilder = AlertDialog.Builder(mContext)
-                    .setView(mDialogView)
-                    .setTitle("선택")
-                val alertDialog = mBuilder.show()
-                alertDialog.findViewById<TextView>(R.id.txt_dialog_topbar)?.text = "이미지를 초기화하시겠습니까"
-                alertDialog.findViewById<Button>(R.id.btn_dialog_loginYes)?.setOnClickListener {
-                    Glide.with(mContext).load(R.drawable.camera_icon).into(binding.imgBwriteCam)
-                    imgClicked = false
-                    imgClickedInt =1
-                    Context_okhttp.setUri(mContext,"")
-                        alertDialog.dismiss()
-                }
-                alertDialog.findViewById<Button>(R.id.btn_dialog_loginNo)?.setOnClickListener{
-                    alertDialog.dismiss()
-                }
+                dialogImgDel()
             }
 
-
-
-
-        }
+            Log.d("이미지여부 in imgBwriteCam.setOnClickListener",imgClicked.toString()+imgClickedInt.toString())
+        }//imgBwriteCam.setOnClickListener
         binding.btnBwritePush.setOnClickListener {
 
             val bwTitle = binding.edtBwriteTitle.text.toString()
@@ -82,26 +70,39 @@ class BoardWriteActivity : BasicActivity() {
             val bwContent = binding.edtBwriteContent.text.toString()
             val bwContentSpaceCheck = if(bwContent == "") "공란입니다" else bwContent
 
-            val selectedImageUri = Context_okhttp.getUri(mContext).toUri()
+            val selectedOneImageUri = Context_okhttp.getUri(mContext).toUri()
 
-            Log.d("이미지_zhx", selectedImageUri.toString())
-            val file = File(URIPathHelper().getPath(mContext, selectedImageUri))
+            Log.d("이미지_zhx", selectedOneImageUri.toString())
+            Log.d("이미지_zhx", imgUrlList.size.toString())
+            Log.d("이미지_zhx", imgUrlList.toString())
 
-            // 완성된 파일을, Retrofit에 첨부가능한 RequestBody 형태로 가공
-            val fileReqBody = file.asRequestBody("image/*".toMediaType())
 
-            // 실제로 첨부하자. 일반형태의 통신x  , Multipart 형태로 전송. MultipartBody 형태로 2차가공
-            // cf) 파일이 같이 첨부되는 API통신은, Multipart 형태로 모든 데이터를 첨부해야함
-            val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}"
-            val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
-            val images = ArrayList<MultipartBody.Part>()
+            if(imgUrlList.size !=null)
+            for(i in 0 .. imgUrlList.size-1){
 
-            images.add(multiPartBody)
+                val file = File(URIPathHelper().getPath(mContext, imgUrlList[i]))
+                val fileReqBody = file.asRequestBody("image/*".toMediaType())
+                val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}.${i}"
+                val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
+                images.add(multiPartBody)
+            }
+//            val file = File(URIPathHelper().getPath(mContext, selectedOneImageUri))
+//
+//            // 완성된 파일을, Retrofit에 첨부가능한 RequestBody 형태로 가공
+//            val fileReqBody = file.asRequestBody("image/*".toMediaType())
+//
+//            // 실제로 첨부하자. 일반형태의 통신x  , Multipart 형태로 전송. MultipartBody 형태로 2차가공
+//            // cf) 파일이 같이 첨부되는 API통신은, Multipart 형태로 모든 데이터를 첨부해야함
+//            val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}"
+//            val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
+//
+//
+//            images.add(multiPartBody)
             Log.d("이미지",images.toString())
             apiList.postRequestWrite(
                 bwTilteSpaceCheck,
                 bwContentSpaceCheck,
-                multiPartBody,
+                images,
                 "#하이"
             ).enqueue(object : Callback<PostData>{
                 override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
@@ -184,8 +185,30 @@ class BoardWriteActivity : BasicActivity() {
         startActivityForResult(itt, CAMERA_CODE)
         imgClicked = true
         imgClickedInt =2
+        Log.d("이미지여부 in choicePictureWithCam",imgClicked.toString()+imgClickedInt.toString())
 
 
+    }
+    fun dialogImgDel(){
+        val mDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_login_intro, null)
+        val mBuilder = AlertDialog.Builder(mContext)
+            .setView(mDialogView)
+            .setTitle("선택")
+        val alertDialog = mBuilder.show()
+        alertDialog.findViewById<TextView>(R.id.txt_dialog_topbar)?.text = "이미지를 초기화하시겠습니까"
+        alertDialog.findViewById<Button>(R.id.btn_dialog_loginYes)?.setOnClickListener {
+            Glide.with(mContext).load(R.drawable.camera_icon).into(binding.imgBwriteCam)
+            imgStyle = "none"
+            imgClicked = false
+            imgClickedInt =1
+            Log.d("이미지여부 in dialogImgDel",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
+
+            Context_okhttp.setUri(mContext,"")
+            alertDialog.dismiss()
+        }
+        alertDialog.findViewById<Button>(R.id.btn_dialog_loginNo)?.setOnClickListener{
+            alertDialog.dismiss()
+        }
     }
 
 
@@ -193,9 +216,16 @@ class BoardWriteActivity : BasicActivity() {
         Context_okhttp.setUri(mContext, "")
         Log.d("강산", Context_okhttp.getUri(mContext))
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(gallery, 100)
+        gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+
+        gallery.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(gallery, intentActionPick)
         imgClicked = true
         imgClickedInt =2
+        imgStyle="Img-notCounted"
+        Log.d("이미지여부 in choicePictureWithGallery",imgClicked.toString()+", "+imgClickedInt.toString()+", "+imgStyle)
+
     }
 
     fun RandomFileName() : String
@@ -208,22 +238,53 @@ class BoardWriteActivity : BasicActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == RESULT_OK && requestCode == 100){
-            val img_Bwrite_cam = findViewById<ImageView>(R.id.img_Bwrite_cam)
-            Glide.with(mContext).load(data?.data).into(img_Bwrite_cam)
-            imgClicked = true
-            imgClickedInt =2
+        if(resultCode == RESULT_OK && requestCode == intentActionPick){
+            //갤러리에서 선택
+            if(data?.clipData != null){
+                //여러장 선택시
+                val imgCount = data.clipData!!.itemCount
+                if(imgCount>10){
+                    Toast.makeText(mContext, "이미지는 10장까지 가능해요", Toast.LENGTH_SHORT).show()
+                    return
+                    Log.d("이미지여부 in onActivityResult - 다중픽 실패",imgClicked.toString()+imgClickedInt.toString())
+                    // 10장 넘기면 거부
+                }//if(imgCount>10) 리턴 블록문
+                for(i in 0 until imgCount){
+                    val imgUri = data.clipData!!.getItemAt(i).uri
+                    imgUrlList.add(imgUri)
+                }
+                binding.imgBshowMultiImgChecker.isVisible = true
+                imgStyle = "multipleImg"
+                Glide.with(mContext).load(data.clipData!!.getItemAt(0).uri).into(binding.imgBwriteCam)
+                Log.d("이미지여부 in onActivityResult - 다중픽 성공",imgClicked.toString()+", "+imgClickedInt.toString()+", "+imgStyle)
 
+            }//if(data?.clipData != null)
 
-            Context_okhttp.setUri(mContext, data?.data.toString())
-            Log.d("강산", Context_okhttp.getUri(mContext))
+            else{
+                //한 장 선택시
+                binding.imgBshowMultiImgChecker.isVisible = false
+                val img_Bwrite_cam = findViewById<ImageView>(R.id.img_Bwrite_cam)
+                Glide.with(mContext).load(data?.data).into(img_Bwrite_cam)
+                imgUrlList.add(data?.data!!)
+                imgStyle="singleImg"
+                imgClicked = true
+                imgClickedInt =2
+                Log.d("이미지여부 in onActivityResult - 단일픽 성공",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
 
-        }
+                Context_okhttp.setUri(mContext, data?.data.toString())
+                Log.d("강산", Context_okhttp.getUri(mContext))
+            }//else
+        }// if(resultCode == RESULT_OK && requestCode == intentActionPick)
         if(resultCode == RESULT_OK && requestCode == CAMERA_CODE){
+            //카메라 픽
             if (data?.extras?.get("data") != null) {
                 val img = data?.extras?.get("data") as Bitmap
                 val uri = saveFile(RandomFileName(), "image/jpeg", img)
                 val kt = uri.toString()
+                if (uri != null) {
+                    imgUrlList.add(uri)
+                    Log.d("이미지_카메라 리스트", imgUrlList.toString())
+                }
                 Context_okhttp.setUri(mContext, kt)
                 Log.d("도모", kt)
                 imgClicked = true

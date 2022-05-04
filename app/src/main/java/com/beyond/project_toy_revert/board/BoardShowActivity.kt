@@ -13,12 +13,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
+import com.beyond.project_toy_revert.adapter.MultifleImgRcAdapter
 import com.beyond.project_toy_revert.adapter.replyFragViewpagerAdapter
 import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.ActivityBoardShowBinding
+import com.beyond.project_toy_revert.datas.MultifleImgDataModel
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
@@ -29,6 +32,8 @@ import java.util.ArrayList
 class BoardShowActivity : BasicActivity() {
     private lateinit var binding: ActivityBoardShowBinding
     private var is_like = false
+    private  var MImglist = mutableListOf<MultifleImgDataModel>()
+    private lateinit var MImgAdapter : MultifleImgRcAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,15 +71,40 @@ class BoardShowActivity : BasicActivity() {
 
                             Log.d("이미지즘", imgUrl.toString())
 
-
-
+                            if(resultLength ==1){
                            runOnUiThread{
                                binding.getImageArea.isVisible = true
                                Glide.with(mContext).load(imgUrl).into(binding.getImageArea)
 
-                           }
-                        }
-                        else{
+                           }//runOnUiThread
+                        }//if(resultLength ==1)
+                            if (resultLength !=1){
+                                //0도 아니면서 1도 아니다 -> 다수
+                                    for(i in 0 .. resultLength-1){
+                                        val resultPostIdDetail = if(resultPostId is JSONArray)resultPostId.getJSONObject(i) else ""
+
+                                        val imgUrl = if(resultPostIdDetail is JSONObject)resultPostIdDetail.getString("image") else R.drawable.cloud.toString()
+                                        var Data: MultifleImgDataModel = MultifleImgDataModel(
+                                            imgUrl
+                                        )
+
+
+                                        MImglist.add(Data)
+                                    }
+                                runOnUiThread{
+                                    MImgAdapter = MultifleImgRcAdapter(MImglist)
+                                    binding.rcBshowMulti.adapter = MImgAdapter
+                                    binding.rcBshowMulti.layoutManager =
+                                        LinearLayoutManager(mContext).also {
+                                            it.orientation = LinearLayoutManager.HORIZONTAL
+                                        }
+                                    binding.rcBshowMulti.isVisible = true
+                                }
+                            }
+
+                    }
+                    else{
+
                         }
                         //이미지넣기
 
