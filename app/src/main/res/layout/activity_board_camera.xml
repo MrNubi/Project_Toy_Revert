@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/sellected_color"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        tools:context=".board.BoardCameraActivity">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="동영상촬영"></TextView>
+        <ImageView
+            android:id="@+id/img_Bcam_camera"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/camera_icon"
+            android:background="@color/sellected_color"></ImageView>
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/exoPlayer_Bcam_vidioPlayer"
+            android:visibility="gone"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            ></com.google.android.exoplayer2.ui.PlayerView>
+        <TextView
+            android:id="@+id/txt_Bcam_utbeLinkBringer"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="유튜브 링크 가져오기"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <EditText
+            android:id="@+id/edt_Bcam_utbeLinkBringer"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="23"
+            android:textColorHint="@color/white"
+            ></EditText>
+        <Button
+            android:id="@+id/btn_Bcam_findByGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="갤러리에서 찾기"
+            ></Button>
+        <Button
+            android:id="@+id/btn_Bcam_cameraOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카메라로 촬영하기"
+            ></Button>
+        <Button
+            android:id="@+id/btn_Bcam_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="push"
+            ></Button>
+
+</LinearLayout>
+</layout>

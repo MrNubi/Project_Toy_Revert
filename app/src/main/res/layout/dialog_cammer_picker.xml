@@ -16,8 +16,14 @@
         android:layout_height="wrap_content"
         android:text="카메라"></Button>
     <Button
+        android:id="@+id/btn_dialog_cammera_vidio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="동영상"></Button>
+    <Button
         android:id="@+id/btn_dialog_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="갤러리에서 찾기"></Button>
+
 </LinearLayout>

@@ -44,6 +44,7 @@ class BoardWriteActivity : BasicActivity() {
     //1 -> 초기값(imgClicked == false), false 2 -> img 1clicked(imgClicked == true) , 3-> img 2Clicked(imgClicked == false)
     val CAMERA_CODE = 98
     val intentActionPick = 100
+    val VIDEOFILE_REQUEST = 120
     val imgUrlList = mutableListOf<Uri>()
     val images = ArrayList<MultipartBody.Part>()
 
@@ -174,6 +175,17 @@ class BoardWriteActivity : BasicActivity() {
             choicePictureWithCam()
             alertDialog.dismiss()
         }
+
+        alertDialog.findViewById<Button>(R.id.btn_dialog_cammera_vidio)?.setOnClickListener {
+
+            val galleryV = Intent(Intent.ACTION_VIEW, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
+            galleryV.setType("video/*")
+            galleryV.setAction(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(galleryV, VIDEOFILE_REQUEST);
+
+
+        }
+
         alertDialog.findViewById<Button>(R.id.btn_dialog_gallery)?.setOnClickListener{
             choicePictureWithGallery()
             alertDialog.dismiss()
