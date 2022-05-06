@@ -219,6 +219,8 @@ class BoardWriteActivity : BasicActivity() {
                         }
                     }
 
+
+
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                         Log.d("비디오 접촉 실패", "실패")
 
