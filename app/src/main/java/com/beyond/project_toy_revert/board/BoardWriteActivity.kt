@@ -27,6 +27,7 @@ import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.beyond.project_toy_revert.util.URIPathHelper
 import com.bumptech.glide.Glide
+import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -85,13 +86,13 @@ class BoardWriteActivity : BasicActivity() {
             for(i in 0 .. imgUrlList.size-1){
 
                 val file = File(URIPathHelper().getPath(mContext, imgUrlList[i]))
-                val ll = file.length()
-                runOnUiThread { Log.d("이미지ll",ll.toString()) }
+
 
                 val fileReqBody = file.asRequestBody("image/*".toMediaType())
                 val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}.${i}"
                 val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
                 images.add(multiPartBody)
+                Log.d("이미지_images",images.toString())
             }
 //            val file = File(URIPathHelper().getPath(mContext, selectedOneImageUri))
 //
@@ -111,8 +112,8 @@ class BoardWriteActivity : BasicActivity() {
                 bwContentSpaceCheck,
                 images,
                 "#하이"
-            ).enqueue(object : Callback<PostData>{
-                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
+            ).enqueue(object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     Log.d("이미지", response.toString())
                     if(response.isSuccessful){
                         runOnUiThread{
@@ -133,7 +134,7 @@ class BoardWriteActivity : BasicActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<PostData>, t: Throwable) {
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     runOnUiThread {
                         Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
 
@@ -197,8 +198,8 @@ class BoardWriteActivity : BasicActivity() {
                     bwContentSpaceCheck,
                     multiPartBody,
                     "#감각"
-                ).enqueue(object : Callback<PostData>{
-                    override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
+                ).enqueue(object : Callback<JsonObject>{
+                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if(response.isSuccessful){
                             runOnUiThread{
                                 Log.d("비디오 접촉 성공","성공")
@@ -218,8 +219,9 @@ class BoardWriteActivity : BasicActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<PostData>, t: Throwable) {
-                        TODO("Not yet implemented")
+                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                        Log.d("비디오 접촉 실패", "실패")
+
                     }
                 })
 
@@ -272,6 +274,7 @@ class BoardWriteActivity : BasicActivity() {
             imgStyle = "none"
             imgClicked = false
             imgClickedInt =1
+            imgUrlList == mutableListOf<Uri>()
             Log.d("이미지여부 in dialogImgDel",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
 
             Context_okhttp.setUri(mContext,"")

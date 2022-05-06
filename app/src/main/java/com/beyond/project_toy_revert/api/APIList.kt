@@ -22,7 +22,7 @@ interface APIList {
         @Part("content") content:String,
         @Part image: ArrayList<MultipartBody.Part>,
         @Part("tag_content") tag_content:String,
-    ) :Call<PostData>  // 서버가 주는 응답을 (성공시에)  BasicResponse 형태로 자동 파싱
+    ) :Call<JsonObject>  // 서버가 주는 응답을 (성공시에)  BasicResponse 형태로 자동 파싱
 
 
     @Multipart
@@ -32,7 +32,7 @@ interface APIList {
         @Part("content") content:String,
         @Part video: MultipartBody.Part,
         @Part("tag_content") tag_content:String,
-    ) :Call<PostData>  // 서버가 주는 응답을 (성공시에)  BasicResponse 형태로 자동 파싱
+    ) :Call<JsonObject>  // 서버가 주는 응답을 (성공시에)  BasicResponse 형태로 자동 파싱
 
 
 
