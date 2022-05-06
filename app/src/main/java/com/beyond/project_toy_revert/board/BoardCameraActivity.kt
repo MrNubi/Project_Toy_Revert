@@ -15,5 +15,9 @@ class BoardCameraActivity : BasicActivity() {
 
 
 
+
     }
+
+
+
 }

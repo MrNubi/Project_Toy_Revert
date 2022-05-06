@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
+import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.ActivityBoardWriteBinding
 import com.beyond.project_toy_revert.datas.PostData
 import com.beyond.project_toy_revert.inheritance.BasicActivity
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okio.utf8Size
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,6 +48,7 @@ class BoardWriteActivity : BasicActivity() {
     val intentActionPick = 100
     val VIDEOFILE_REQUEST = 120
     val imgUrlList = mutableListOf<Uri>()
+    val VdoUrlList = mutableListOf<Uri>()
     val images = ArrayList<MultipartBody.Part>()
 
     private lateinit var binding : ActivityBoardWriteBinding
@@ -82,6 +85,9 @@ class BoardWriteActivity : BasicActivity() {
             for(i in 0 .. imgUrlList.size-1){
 
                 val file = File(URIPathHelper().getPath(mContext, imgUrlList[i]))
+                val ll = file.length()
+                runOnUiThread { Log.d("이미지ll",ll.toString()) }
+
                 val fileReqBody = file.asRequestBody("image/*".toMediaType())
                 val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}.${i}"
                 val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
@@ -100,7 +106,7 @@ class BoardWriteActivity : BasicActivity() {
 //
 //            images.add(multiPartBody)
             Log.d("이미지",images.toString())
-            apiList.postRequestWrite(
+            apiList.postRequestImgWrite(
                 bwTilteSpaceCheck,
                 bwContentSpaceCheck,
                 images,
@@ -132,6 +138,7 @@ class BoardWriteActivity : BasicActivity() {
                         Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
 
                         Log.d("이미지 실패","연결조차 실패")
+                        Log.d("이미지 실패",t.toString())
                     }
 
                 }
@@ -165,6 +172,58 @@ class BoardWriteActivity : BasicActivity() {
 
         }//binding.btnBwritePush.setOnClickListener
     }//Oncreate
+
+    fun vidioSender(){
+        val bwTitle = binding.edtBwriteTitle.text.toString()
+        val bwTilteSpaceCheck = if(bwTitle == "") "공란입니다" else bwTitle
+        val bwContent = binding.edtBwriteContent.text.toString()
+        val bwContentSpaceCheck = if(bwContent == "") "공란입니다" else bwContent
+
+        val selectedVidioUri = Context_okhttp.getVedeoUri(mContext).toUri()
+
+        Log.d("이미지_zhx", selectedVidioUri.toString())
+        Log.d("이미지_zhx", VdoUrlList.size.toString())
+        Log.d("이미지_zhx", VdoUrlList.toString())
+
+
+
+
+                val file = File(URIPathHelper().getPath(mContext, selectedVidioUri))
+                val fileReqBody = file.asRequestBody("vidio/*".toMediaType())
+                val fileNameChoicer = "${Context_okhttp.getID(mContext)}_${RandomFileName()}_video"
+                val multiPartBody = MultipartBody.Part.createFormData("video", "${fileNameChoicer}", fileReqBody)
+                apiList.postRequestVidioWrite(
+                    bwTilteSpaceCheck,
+                    bwContentSpaceCheck,
+                    multiPartBody,
+                    "#감각"
+                ).enqueue(object : Callback<PostData>{
+                    override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
+                        if(response.isSuccessful){
+                            runOnUiThread{
+                                Log.d("비디오 접촉 성공","성공")
+                                Toast.makeText(mContext, "게시글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
+                                val bwintent = Intent(mContext, MainActivity::class.java)
+
+                                startActivity(bwintent)
+                            }
+
+                        }
+                        else{
+                            runOnUiThread {
+                                Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
+
+                                Log.d("비디오 접촉 성공", "실패")
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<PostData>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+    }
     fun dialogChoicePictureType(){
         val mDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_cammer_picker, null)
         val mBuilder = AlertDialog.Builder(mContext)
@@ -302,6 +361,19 @@ class BoardWriteActivity : BasicActivity() {
                 imgClicked = true
                 imgClickedInt =2
                 binding.imgBwriteCam.setImageURI(uri)
+            }
+
+            if(resultCode == RESULT_OK && requestCode == VIDEOFILE_REQUEST){
+                binding.imgBshowMultiImgChecker.isVisible = false
+                Glide.with(mContext).load(R.drawable.ic_baseline_videocam_24).into(binding.imgBwriteCam)
+                VdoUrlList.add(data?.data!!)
+                imgStyle="video"
+                imgClicked = true
+                imgClickedInt =2
+                Log.d("이미지여부 in onActivityResult - 비디오 성공",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
+
+                Context_okhttp.setUri(mContext, data?.data.toString())
+                Log.d("강산", Context_okhttp.getUri(mContext))
             }
         }
 

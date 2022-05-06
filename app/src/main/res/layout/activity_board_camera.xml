@@ -9,6 +9,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         tools:context=".board.BoardCameraActivity">
+
         <TextView
             android:layout_marginTop="20dp"
             android:gravity="center"
@@ -46,8 +47,10 @@
             android:textColorHint="@color/white"
             ></EditText>
         <Button
+            android:background="@drawable/background"
+            android:backgroundTint="#575454"
             android:id="@+id/btn_Bcam_findByGallery"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="갤러리에서 찾기"
             ></Button>
