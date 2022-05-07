@@ -2,6 +2,7 @@ package com.beyond.project_toy_revert.board
 
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,10 @@ import com.beyond.project_toy_revert.datas.MultifleImgDataModel
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.ArrayList
@@ -34,6 +39,8 @@ class BoardShowActivity : BasicActivity() {
     private var is_like = false
     private  var MImglist = mutableListOf<MultifleImgDataModel>()
     private lateinit var MImgAdapter : MultifleImgRcAdapter
+    private lateinit var player: SimpleExoPlayer
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,8 @@ class BoardShowActivity : BasicActivity() {
                 Log.d("이미지즘", RcCode)
                     if(RcCode == "200"){
                         val imgORtxt = jsonObject.get("images")
+                        val vidioNullCheck = jsonObject.get("video")
+                        val vidioString :String = if(vidioNullCheck != null) jsonObject.getString("video") else ""
                         val resultPostId =if(imgORtxt is JSONArray) jsonObject.getJSONArray("images") else ""
                         val resultLength = if(resultPostId is JSONArray)resultPostId.length() else 0
                         val bShowTitle = jsonObject.getString("title")
@@ -64,6 +73,23 @@ class BoardShowActivity : BasicActivity() {
                         binding.txtBshowContent.text= bShowContent
                         binding.txtBshowTime.text= bShowAuthor
                         binding.txtBsowLikeCount.text= likeCount.toString()
+                        if (vidioString!=""){
+
+                            runOnUiThread{
+                                player = SimpleExoPlayer.Builder(mContext).build()
+                                binding.exoPlaerBshowPlayerview.isVisible = true
+                                val dataSourceFactory = DefaultDataSourceFactory(mContext)
+                                val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+                                    .createMediaSource(MediaItem.fromUri(Uri.parse(vidioString)))
+                                player.setMediaSource(mediaSource)
+                                player.prepare()
+                                player.play()
+
+
+
+
+                            }
+                        }
                         if (resultLength != 0){
                             val resultPostIdDetail = if(resultPostId is JSONArray)resultPostId.getJSONObject(0) else ""
                             val imgUrl = if(resultPostIdDetail is JSONObject)resultPostIdDetail.getString("image") else R.drawable.cloud
@@ -275,6 +301,18 @@ class BoardShowActivity : BasicActivity() {
     override fun onBackPressed() {
         val bwIntent = Intent(mContext, MainActivity::class.java)
         startActivity(bwIntent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
+        Log.d("디스트로이","onDestroy")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        player.pause()
+        Log.d("온스탑","onStop")
     }
 
 }

@@ -90,13 +90,20 @@
                         android:gravity="right"
                         android:textStyle="bold"
                         android:text="time" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_Bshow_multi"
                         android:visibility="gone"
                         android:layout_width="210dp"
                         android:layout_height="210dp"
                         android:layout_gravity="center"></androidx.recyclerview.widget.RecyclerView>
-
+                    <com.google.android.exoplayer2.ui.PlayerView
+                        android:visibility="gone"
+                        android:id="@+id/exoPlaer_Bshow_playerview"
+                        app:resize_mode="fill"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"></com.google.android.exoplayer2.ui.PlayerView>
                     <ImageView
                         android:id="@+id/getImageArea"
                         android:layout_gravity="center_horizontal"

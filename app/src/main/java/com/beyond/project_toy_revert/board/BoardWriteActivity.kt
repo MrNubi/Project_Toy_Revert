@@ -69,30 +69,47 @@ class BoardWriteActivity : BasicActivity() {
             Log.d("이미지여부 in imgBwriteCam.setOnClickListener",imgClicked.toString()+imgClickedInt.toString())
         }//imgBwriteCam.setOnClickListener
         binding.btnBwritePush.setOnClickListener {
-
-            val bwTitle = binding.edtBwriteTitle.text.toString()
-            val bwTilteSpaceCheck = if(bwTitle == "") "공란입니다" else bwTitle
-            val bwContent = binding.edtBwriteContent.text.toString()
-            val bwContentSpaceCheck = if(bwContent == "") "공란입니다" else bwContent
-
-            val selectedOneImageUri = Context_okhttp.getUri(mContext).toUri()
-
-            Log.d("이미지_zhx", selectedOneImageUri.toString())
-            Log.d("이미지_zhx", imgUrlList.size.toString())
-            Log.d("이미지_zhx", imgUrlList.toString())
+            if(imgStyle=="video"){
+                // 비디오 전송
+                vidioSender()
+            }//if
+            if(imgStyle!="video") {
+                //이미지 전송(x/1/2~ 합본)
+                imgSender()
+            }//if
 
 
-            if(imgUrlList.size !=null)
-            for(i in 0 .. imgUrlList.size-1){
+            }//binding.btnBwritePush.setOnClickListener}
+    }//Oncreate
+
+    fun imgSender(){   val bwTitle = binding.edtBwriteTitle.text.toString()
+        val bwTilteSpaceCheck = if (bwTitle == "") "공란입니다" else bwTitle
+        val bwContent = binding.edtBwriteContent.text.toString()
+        val bwContentSpaceCheck = if (bwContent == "") "공란입니다" else bwContent
+
+        val selectedOneImageUri = Context_okhttp.getUri(mContext).toUri()
+
+        Log.d("이미지_zhx", selectedOneImageUri.toString())
+        Log.d("이미지_zhx", imgUrlList.size.toString())
+        Log.d("이미지_zhx", imgUrlList.toString())
+
+
+        if (imgUrlList.size != null)
+            for (i in 0..imgUrlList.size - 1) {
 
                 val file = File(URIPathHelper().getPath(mContext, imgUrlList[i]))
 
 
                 val fileReqBody = file.asRequestBody("image/*".toMediaType())
-                val fileNameChoicer = "${Context_okhttp.getID(mContext)}.${RandomFileName()}.${i}"
-                val multiPartBody = MultipartBody.Part.createFormData("image", "${fileNameChoicer}", fileReqBody)
+                val fileNameChoicer =
+                    "${Context_okhttp.getID(mContext)}.${RandomFileName()}.${i}"
+                val multiPartBody = MultipartBody.Part.createFormData(
+                    "image",
+                    "${fileNameChoicer}",
+                    fileReqBody
+                )
                 images.add(multiPartBody)
-                Log.d("이미지_images",images.toString())
+                Log.d("이미지_images", images.toString())
             }
 //            val file = File(URIPathHelper().getPath(mContext, selectedOneImageUri))
 //
@@ -106,46 +123,49 @@ class BoardWriteActivity : BasicActivity() {
 //
 //
 //            images.add(multiPartBody)
-            Log.d("이미지",images.toString())
-            apiList.postRequestImgWrite(
-                bwTilteSpaceCheck,
-                bwContentSpaceCheck,
-                images,
-                "#하이"
-            ).enqueue(object : Callback<JsonObject>{
-                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                    Log.d("이미지", response.toString())
-                    if(response.isSuccessful){
-                        runOnUiThread{
-                        Log.d("이미지 성공","성공")
-                        Toast.makeText(mContext, "게시글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
-                                val bwintent = Intent(mContext, MainActivity::class.java)
-
-                                startActivity(bwintent)
-                        }
-
-                }
-                    else{
-                        runOnUiThread {
-                            Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
-
-                            Log.d("이미지 성공", "실패")
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+        Log.d("이미지", images.toString())
+        apiList.postRequestImgWrite(
+            bwTilteSpaceCheck,
+            bwContentSpaceCheck,
+            images,
+            "#하이"
+        ).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>,
+                response: Response<JsonObject>
+            ) {
+                Log.d("이미지", response.toString())
+                if (response.isSuccessful) {
                     runOnUiThread {
-                        Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        Log.d("이미지 성공", "성공")
+                        Toast.makeText(mContext, "게시글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
+                        val bwintent = Intent(mContext, MainActivity::class.java)
 
-                        Log.d("이미지 실패","연결조차 실패")
-                        Log.d("이미지 실패",t.toString())
+                        startActivity(bwintent)
                     }
 
-                }
-            })
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT)
+                            .show()
 
-            Context_okhttp.setUri(mContext,"")
+                        Log.d("이미지 성공", "실패")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                runOnUiThread {
+                    Toast.makeText(mContext, "게시글이 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
+
+                    Log.d("이미지 실패", "연결조차 실패")
+                    Log.d("이미지 실패", t.toString())
+                }
+
+            }
+        })
+
+        Context_okhttp.setUri(mContext, "")
 
 //            serverUtil_okhttp.postAnnounceBoard(
 //                mContext,
@@ -170,9 +190,7 @@ class BoardWriteActivity : BasicActivity() {
 //                    }//onResponse
 //                })//serverUtil_okhttp.postAnnounceBoard
 
-
-        }//binding.btnBwritePush.setOnClickListener
-    }//Oncreate
+    }//fun imgSender()
 
     fun vidioSender(){
         val bwTitle = binding.edtBwriteTitle.text.toString()
@@ -192,7 +210,7 @@ class BoardWriteActivity : BasicActivity() {
                 val file = File(URIPathHelper().getPath(mContext, selectedVidioUri))
                 val fileReqBody = file.asRequestBody("vidio/*".toMediaType())
                 val fileNameChoicer = "${Context_okhttp.getID(mContext)}_${RandomFileName()}_video"
-                val multiPartBody = MultipartBody.Part.createFormData("video", "${fileNameChoicer}", fileReqBody)
+                val multiPartBody = MultipartBody.Part.createFormData("video", "${fileNameChoicer}.mp4", fileReqBody)
                 apiList.postRequestVidioWrite(
                     bwTilteSpaceCheck,
                     bwContentSpaceCheck,
@@ -218,7 +236,8 @@ class BoardWriteActivity : BasicActivity() {
                             }
                         }
                     }
-
+                    //관자재보살 행 심 반야 하 바라밀다 시 조견 오온 개공 도 일체 고 액
+                    //사리 자 색 불 이 공
 
 
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -241,10 +260,13 @@ class BoardWriteActivity : BasicActivity() {
 
         alertDialog.findViewById<Button>(R.id.btn_dialog_cammera_vidio)?.setOnClickListener {
 
-            val galleryV = Intent(Intent.ACTION_VIEW, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
+            val galleryV = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
             galleryV.setType("video/*")
             galleryV.setAction(Intent.ACTION_GET_CONTENT)
-            startActivityForResult(galleryV, VIDEOFILE_REQUEST);
+            startActivityForResult(galleryV, VIDEOFILE_REQUEST)
+            Log.d("vidio", "rqtype")
+            alertDialog.dismiss()
+
 
 
         }
@@ -313,7 +335,7 @@ class BoardWriteActivity : BasicActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
-
+            Log.d("결과",resultCode.toString()+", "+requestCode+", "+data.toString())
         if(resultCode == RESULT_OK && requestCode == intentActionPick){
             //갤러리에서 선택
             if(data?.clipData != null){
@@ -351,6 +373,8 @@ class BoardWriteActivity : BasicActivity() {
                 Log.d("강산", Context_okhttp.getUri(mContext))
             }//else
         }// if(resultCode == RESULT_OK && requestCode == intentActionPick)
+
+
         if(resultCode == RESULT_OK && requestCode == CAMERA_CODE){
             //카메라 픽
             if (data?.extras?.get("data") != null) {
@@ -367,20 +391,21 @@ class BoardWriteActivity : BasicActivity() {
                 imgClickedInt =2
                 binding.imgBwriteCam.setImageURI(uri)
             }
+        }// if(resultCode == RESULT_OK && requestCode == CAMERA_CODE)
+        if(resultCode == RESULT_OK && requestCode == VIDEOFILE_REQUEST){
 
-            if(resultCode == RESULT_OK && requestCode == VIDEOFILE_REQUEST){
-                binding.imgBshowMultiImgChecker.isVisible = false
-                Glide.with(mContext).load(R.drawable.ic_baseline_videocam_24).into(binding.imgBwriteCam)
-                VdoUrlList.add(data?.data!!)
-                imgStyle="video"
-                imgClicked = true
-                imgClickedInt =2
-                Log.d("이미지여부 in onActivityResult - 비디오 성공",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
 
-                Context_okhttp.setUri(mContext, data?.data.toString())
-                Log.d("강산", Context_okhttp.getUri(mContext))
-            }
-        }
+            val img_Bwrite_cam = findViewById<ImageView>(R.id.img_Bwrite_cam)
+            Glide.with(mContext).load(R.drawable.ic_baseline_videocam_24).into(img_Bwrite_cam)
+
+            imgStyle="video"
+            imgClicked = true
+            imgClickedInt =2
+            Log.d("이미지여부 in onActivityResult - 비디오 성공",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
+
+            Context_okhttp.setVideoUri(mContext, data?.data.toString())
+            Log.d("강산", Context_okhttp.getUri(mContext))
+        }//if(resultCode == RESULT_OK && requestCode == VIDEOFILE_REQUEST)
 
 
     }
