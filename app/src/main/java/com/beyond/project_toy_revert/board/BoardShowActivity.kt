@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.widget.BaseAdapter
 import android.widget.Button
@@ -37,6 +38,8 @@ import java.util.ArrayList
 class BoardShowActivity : BasicActivity() {
     private lateinit var binding: ActivityBoardShowBinding
     private var is_like = false
+    private var is_played = false
+
     private  var MImglist = mutableListOf<MultifleImgDataModel>()
     private lateinit var MImgAdapter : MultifleImgRcAdapter
     private lateinit var player: SimpleExoPlayer
@@ -46,6 +49,9 @@ class BoardShowActivity : BasicActivity() {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_board_show)
 //        val likeState = intent.getStringExtra("AnnounceLike").toBoolean()
+        binding.getImageArea.visibility = View.GONE
+        binding.rcBshowMulti.visibility = View.GONE
+        binding.exoPlaerBshowPlayerview.visibility = View.GONE
         setPage()
 //        setText()
         editDialogBtn()
@@ -73,17 +79,22 @@ class BoardShowActivity : BasicActivity() {
                         binding.txtBshowContent.text= bShowContent
                         binding.txtBshowTime.text= bShowAuthor
                         binding.txtBsowLikeCount.text= likeCount.toString()
-                        if (vidioString!=""){
+                        if (vidioString!=""&&vidioString!="null"){
 
                             runOnUiThread{
-                                player = SimpleExoPlayer.Builder(mContext).build()
+                                is_played = true
+                                player = SimpleExoPlayer.Builder(this@BoardShowActivity).build()
+                                binding.exoPlaerBshowPlayerview.player =  player
                                 binding.exoPlaerBshowPlayerview.isVisible = true
-                                val dataSourceFactory = DefaultDataSourceFactory(mContext)
+                                Log.d("비디오 비저블", "11${vidioString}")
+                                val dataSourceFactory = DefaultDataSourceFactory(this@BoardShowActivity)
                                 val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                                     .createMediaSource(MediaItem.fromUri(Uri.parse(vidioString)))
                                 player.setMediaSource(mediaSource)
                                 player.prepare()
-                                player.play()
+                                binding.txtBshowTitle.setOnClickListener {
+                                    player.play()
+                                }
 
 
 
@@ -305,13 +316,20 @@ class BoardShowActivity : BasicActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if(is_played == true){
         player.release()
+            is_played == false
+
+        }
         Log.d("디스트로이","onDestroy")
     }
 
     override fun onStop() {
         super.onStop()
+        if(is_played == true){
         player.pause()
+            is_played == false
+        }
         Log.d("온스탑","onStop")
     }
 
