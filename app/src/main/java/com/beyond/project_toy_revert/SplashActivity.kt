@@ -35,6 +35,9 @@ class SplashActivity : BasicActivity() {
 
 //        if(auth.currentUser?.uid == null){newUser()}
 //        else{ currentUser() }
+
+
+
         val pl = object : PermissionListener {
             override fun onPermissionGranted() {
                 Log.d("권한 허용","향")
@@ -89,11 +92,11 @@ class SplashActivity : BasicActivity() {
             .setDeniedMessage("권한을 거부하면 사용이 불가능합니다. 설정 > 권한에서 허용해주세요.")
             .setDeniedCloseButtonText("닫기")
             .setGotoSettingButtonText("설정으로 가기")
-            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET)
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.CAMERA)
             .check()
 
 
-        
+
 //        Handler().postDelayed({
 //            startActivity(Intent(this, ConvertActivity::class.java))
 //            finish()

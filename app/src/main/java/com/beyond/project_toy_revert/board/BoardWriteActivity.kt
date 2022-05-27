@@ -298,10 +298,15 @@ class BoardWriteActivity : BasicActivity() {
             imgStyle = "none"
             imgClicked = false
             imgClickedInt =1
-            imgUrlList == mutableListOf<Uri>()
+            imgUrlList.removeAll(imgUrlList)
+
             Log.d("이미지여부 in dialogImgDel",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
+            Log.d("이미지여부 in dialogImgDel",imgUrlList.toString())
+
 
             Context_okhttp.setUri(mContext,"")
+            Context_okhttp.setVideoUri(mContext,"")
+            Log.d("이미지여부 in dialogImgDel",Context_okhttp.getVedeoUri(mContext))
             alertDialog.dismiss()
         }
         alertDialog.findViewById<Button>(R.id.btn_dialog_loginNo)?.setOnClickListener{

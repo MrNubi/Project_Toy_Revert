@@ -4,11 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
+import com.beyond.project_toy_revert.avatara.AvataraActivity
 import com.beyond.project_toy_revert.databinding.ActivityMainBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
+import com.bumptech.glide.Glide
 
 class MainActivity : BasicActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,8 +30,14 @@ class MainActivity : BasicActivity() {
         binding.tabMainTop.setupWithViewPager(binding.viewMainv2)
         binding.viewMainv2.setCurrentItem(1)
         Log.d("옹", Context_okhttp.getToken(mContext))
+        val avataraUri = Context_okhttp.getAvatara(mContext)
+        if(avataraUri != "123")
+        Glide.with(mContext).load(avataraUri.toUri()).into(binding.imgMainAvatarZone)
 
-
+        binding.imgMainAvatarZone.setOnClickListener {
+            val I = Intent(mContext, AvataraActivity::class.java)
+            startActivity(I)
+        }
         binding.imgMainProf.setOnClickListener {
             Context_okhttp.setToken(mContext,"TOKEN")
             Context_okhttp.setID(mContext, "")

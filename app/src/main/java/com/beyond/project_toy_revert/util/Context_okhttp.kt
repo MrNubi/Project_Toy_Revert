@@ -12,6 +12,7 @@ class Context_okhttp {
         // 저장할 데이터의 항목명도 변수로 만들어두자
         private val TOKEN = "TOKEN"
         private val POSTID = "12"
+        private val avataraResult = "123"
         private val Nick ="NICK"
         private val UID = "ID"
         private val VIDEOUID = "VIDEOUID"
@@ -24,8 +25,26 @@ class Context_okhttp {
         // TOKEN항목에 저장 => token항목 조회? 데이터 인식x.  대소문자까지 동일해야함
         // 오타를 줄이고, 코딩 편하게 하는 조치
 
+        fun setAvatara(context: Context, avataraCode:String){
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(avataraResult, Context.MODE_PRIVATE)
+
+            // 입력들어온 token 내용 (TOKEN 항목에) 저장
+            pref.edit().putString(avataraResult, avataraCode).apply()
+
+        }
+
+        fun getAvatara(context: Context):String{
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(avataraResult, Context.MODE_PRIVATE)
+            //
+            return  pref.getString(avataraResult, "")!!
+        }
 
 
+//************************************************************************************************8
         fun setUri(context: Context, nick:String){
 
             // 메모장 파일을 열자

@@ -74,11 +74,11 @@ class BoardShowActivity : BasicActivity() {
                         val bShowAuthor = jsonObject.getString("author")
                         val isLike = jsonObject.getBoolean("is_like")
                         val likeCount = jsonObject.getInt("like_count")
-                        runOnUiThread{LikeSetter(isLike)}
+                        runOnUiThread{LikeSetter(isLike)
                         binding.txtBshowTitle.text= bShowTitle
                         binding.txtBshowContent.text= bShowContent
                         binding.txtBshowTime.text= bShowAuthor
-                        binding.txtBsowLikeCount.text= likeCount.toString()
+                        binding.txtBsowLikeCount.text= likeCount.toString()}
                         if (vidioString!=""&&vidioString!="null"){
 
                             runOnUiThread{
