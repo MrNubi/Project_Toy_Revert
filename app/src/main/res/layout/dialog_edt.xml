@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/background"
+        android:backgroundTint="#FF5722"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+
+        android:layout_height="60dp">
+
+        <EditText
+            android:paddingHorizontal="10dp"
+            android:drawableLeft="@drawable/ic_baseline_create_24"
+            android:drawablePadding="20dp"
+            android:id="@+id/edt_dialog_comment"
+            android:hint=" 댓글을 입력해주세요"
+            android:textColorHint="#FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/btn_dialog_commentPush"
+            android:src="@drawable/btn_pen2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

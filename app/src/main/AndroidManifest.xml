@@ -22,7 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".board.BoardShowActivity"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustPan"            android:exported="false" />
         <activity
             android:name=".board.BoardWriteActivity"
             android:exported="false" />

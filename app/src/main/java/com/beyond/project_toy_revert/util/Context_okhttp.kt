@@ -12,6 +12,7 @@ class Context_okhttp {
         // 저장할 데이터의 항목명도 변수로 만들어두자
         private val TOKEN = "TOKEN"
         private val POSTID = "12"
+        private val ReplyID = "12"
         private val avataraResult = "123"
         private val Nick ="NICK"
         private val UID = "ID"
@@ -80,7 +81,7 @@ class Context_okhttp {
             //
             return  pref.getString(VIDEOUID, "")!!
         }
-
+//*****************************************************************************************
         fun setPostId(context: Context, postid:String){
 
             // 메모장 파일을 열자
@@ -98,7 +99,25 @@ class Context_okhttp {
             //
             return  pref.getString(POSTID, "")!!
         }
+        //***********************************************************************
+        fun setReplyId(context: Context, replyid:String){
 
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(ReplyID, Context.MODE_PRIVATE)
+
+            // 입력들어온 token 내용 (TOKEN 항목에) 저장
+            pref.edit().putString(ReplyID, replyid).apply()
+
+        }
+
+        fun getReplyId(context: Context):String{
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(ReplyID, Context.MODE_PRIVATE)
+            //
+            return  pref.getString(ReplyID, "")!!
+        }
+//********************************************************************************
         fun setToken(context: Context, token:String){
 
             // 메모장 파일을 열자

@@ -17,6 +17,9 @@
        android:layout_height="60dp">
 
       <EditText
+          android:paddingHorizontal="10dp"
+          android:drawableLeft="@drawable/ic_baseline_create_24"
+          android:drawablePadding="20dp"
           android:id="@+id/edt_replyFrag_comment"
           android:hint=" 댓글을 입력해주세요"
           android:textColorHint="#FFFFFF"

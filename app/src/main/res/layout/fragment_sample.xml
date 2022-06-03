@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".fragment.AnnounceFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+   <TextView
+       android:id="@+id/txt_Like"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+      android:text="Like"></TextView>
+   <TextView
+       android:id="@+id/txt_recent"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+       android:text="Recent"></TextView>
+   <TextView
+       android:id="@+id/txt_My"
+       android:textColor="@color/black"
+       android:gravity="center"
+       android:layout_weight="1"
+       android:layout_width="0dp"
+       android:layout_height="50dp"
+       android:text="My"></TextView>
+</LinearLayout>
+
+
+   <ListView
+       android:focusable="false"
+       android:id="@+id/LV_frag_sample"
+       android:layout_width="match_parent"
+       android:layout_weight="1"
+       android:layout_height="0dp">
+
+   </ListView>
+
+   <ImageView
+       android:layout_margin="20dp"
+       android:layout_gravity="right"
+       android:id="@+id/btn_announce_write"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:src="@drawable/leaf_toy"></ImageView>
+
+</LinearLayout>
+</layout>

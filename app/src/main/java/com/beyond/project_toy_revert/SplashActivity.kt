@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import org.json.JSONObject
+import java.time.LocalDateTime
 
 class SplashActivity : BasicActivity() {
     private lateinit var auth: FirebaseAuth
@@ -32,6 +33,7 @@ class SplashActivity : BasicActivity() {
         auth = Firebase.auth
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
 
 //        if(auth.currentUser?.uid == null){newUser()}
 //        else{ currentUser() }

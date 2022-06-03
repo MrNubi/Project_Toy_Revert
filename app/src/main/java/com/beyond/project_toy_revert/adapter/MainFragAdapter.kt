@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.beyond.project_toy_revert.fragment.AnnounceFragment
 import com.beyond.project_toy_revert.fragment.GalleryFragment
 import com.beyond.project_toy_revert.fragment.HitFragment
+import com.beyond.project_toy_revert.fragment.SampleeFragment
 
 
 class MainFragAdapter(fm:FragmentManager) :FragmentPagerAdapter(fm) {
@@ -16,7 +17,7 @@ class MainFragAdapter(fm:FragmentManager) :FragmentPagerAdapter(fm) {
         return when (position) {
             0 -> GalleryFragment()
             1 -> AnnounceFragment()
-            2 -> HitFragment()
+            2 -> SampleeFragment()
             else -> AnnounceFragment()
         }
     }
@@ -26,7 +27,7 @@ class MainFragAdapter(fm:FragmentManager) :FragmentPagerAdapter(fm) {
 
             0-> "Gallery"
             1 -> "Announce"
-            2 -> "Hit"
+            2 -> "sample"
             else -> "Announce"
         }
     }
