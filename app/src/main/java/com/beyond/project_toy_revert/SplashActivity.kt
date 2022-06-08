@@ -33,7 +33,7 @@ class SplashActivity : BasicActivity() {
         auth = Firebase.auth
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-
+        testIdAutoLogin()
 
 //        if(auth.currentUser?.uid == null){newUser()}
 //        else{ currentUser() }
@@ -105,6 +105,7 @@ class SplashActivity : BasicActivity() {
 //        }, 3000)
 
     }
+
     fun tokenRefresh(token:String){
         serverUtil_okhttp.postTokenRefresh(token,object : serverUtil_okhttp.JsonResponseHandler_login{
             override fun onResponse(jsonObject: JSONObject, RcCode: String) {
@@ -122,10 +123,46 @@ class SplashActivity : BasicActivity() {
         })
     }
 
+    fun testIdAutoLogin(){
+        val inputId ="clone3"
+        val inputPw = "justice109"
+        serverUtil_okhttp.postReqestLogin(inputId, "" ,inputPw, object : serverUtil_okhttp.JsonResponseHandler_login{
+            override fun onResponse(jsonObject: JSONObject, RcCode:String) {
+
+                // 화면의 입장에서, 로그인 결과를 받아서 처리할 코드
+                // 서버에 다녀오고 실행 : 라이브러리가 자동으로 백그라운데어서 돌도록 만들어둔 코드
+                if(RcCode == "[\"token\",\"user\"]"){
+                    val key = jsonObject.getString("token")
 
 
 
-    }//fun NewId()
+
+                    runOnUiThread {
+                        Toast.makeText(mContext, "${inputId}님, 환영합니다!", Toast.LENGTH_SHORT).show()
+                        Context_okhttp.setToken(mContext, key)
+                        Context_okhttp.setID(mContext, inputId)
+
+
+                        Log.d("캬옹", inputId)
+                        val myIntent =  Intent(mContext, MainActivity::class.java)
+                        myIntent.putExtra("id", inputId)
+                        startActivity(myIntent)
+                    }//runOnUiThread
+                }else{
+                    Context_okhttp.setID(mContext, inputId)
+                    runOnUiThread { Toast.makeText(mContext,"$RcCode", Toast.LENGTH_SHORT).show()}
+                }
+
+            }//override fun onResponse
+        })//serverUtil_okhttp.postReqestLogin
+
+
+
+
+
+
+    }
+}
 
 //    fun currentUser(){
 //        Log.d("currentUser", "SplashActivity")

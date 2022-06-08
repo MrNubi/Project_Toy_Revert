@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/img_avatara_head"
@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.336"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/img_avatara_body"></ImageView>
+            app:layout_constraintTop_toTopOf="@+id/img_avatara_body" />
 
         <ImageView
             android:id="@+id/img_avatara_leftFoot"
@@ -61,29 +61,101 @@
             app:layout_constraintTop_toTopOf="@+id/img_avatara_body"></ImageView>
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <LinearLayout
+            android:paddingHorizontal="15dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:text="Head"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:id="@+id/avatara_tab1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/linear_avatara_tabChoiceShower1"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingHorizontal="15dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:text="Body"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:id="@+id/avatara_tab2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+            <LinearLayout
+                android:visibility="invisible"
+
+                android:orientation="vertical"
+                android:id="@+id/linear_avatara_tabChoiceShower2"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingHorizontal="15dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:text="Shoes"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:id="@+id/avatara_tab3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+            <LinearLayout
+                android:visibility="invisible"
+
+                android:orientation="vertical"
+                android:id="@+id/linear_avatara_tabChoiceShower3"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Lin_avatara_rvShower"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="150dp">
-        <ImageView
-            android:id="@+id/button_avatara_head"
-            android:src="@drawable/samp_hat1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"></ImageView>
-        <ImageView
-            android:layout_marginHorizontal="20dp"
-            android:id="@+id/button_avatara_body"
-            android:src="@drawable/samp_human2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"></ImageView>
-        <ImageView
-            android:id="@+id/button_avatara_foot"
-            android:src="@drawable/samp_shoe2_right"
-            android:layout_width="100dp"
-            android:layout_height="100dp"></ImageView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/avatara_showWindow"/>
+
 
     </LinearLayout>
     <Button
@@ -95,3 +167,19 @@
 
 </LinearLayout>
 </layout>
+<!--<ImageView-->
+<!--android:id="@+id/button_avatara_head"-->
+<!--android:src="@drawable/samp_hat1"-->
+<!--android:layout_width="100dp"-->
+<!--android:layout_height="100dp"></ImageView>-->
+<!--<ImageView-->
+<!--android:layout_marginHorizontal="20dp"-->
+<!--android:id="@+id/button_avatara_body"-->
+<!--android:src="@drawable/samp_human2"-->
+<!--android:layout_width="100dp"-->
+<!--android:layout_height="100dp"></ImageView>-->
+<!--<ImageView-->
+<!--android:id="@+id/button_avatara_foot"-->
+<!--android:src="@drawable/samp_shoe2_right"-->
+<!--android:layout_width="100dp"-->
+<!--android:layout_height="100dp"></ImageView>-->
