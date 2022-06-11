@@ -1,9 +1,11 @@
 package com.beyond.project_toy_revert.datas
 
 class replyDataModel(
-    val replyName : String,
+    val replyId : Float,
+
     val replyMessage:String,
-    val replyId : Int,
+    val replyName : String,
+
     val replyParent: String?
 )
 {

@@ -13,18 +13,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.adapter.AvataraShowWindowAdapter
+import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.board.BoardWriteActivity
 import com.beyond.project_toy_revert.databinding.ActivityAvataraBinding
 import com.beyond.project_toy_revert.datas.AvataraModel
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
+import org.json.JSONObject
 import java.io.FileOutputStream
 
 class AvataraActivity : BasicActivity() {
@@ -32,6 +35,9 @@ class AvataraActivity : BasicActivity() {
     private var avataraShowList = mutableListOf<AvataraModel>()
     private lateinit var avataraShowAdapter : AvataraShowWindowAdapter
     private var tabNumber = 1
+    private var HeadNumber = 0
+    private var BodyNumber = 0
+    private var ShoesNumber = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_avatara)
@@ -63,7 +69,18 @@ class AvataraActivity : BasicActivity() {
             avataraShoesShow()
         }
         binding.buttonAvataraChoice.setOnClickListener {
+           val avataOk= Context_okhttp.getAvataOk(mContext)
             saveProfileToURL()
+            if(avataOk=="0"){
+                postProfile()
+            }
+            else if(avataOk=="1"){
+                patchProfile()
+            }
+            else{
+                Toast.makeText(mContext, "오류: 아바타를 전송할 수 없습니다", Toast.LENGTH_SHORT).show()
+                Log.d("아바타에러","아바타ok체크_${avataOk}")
+            }
             val I = Intent(mContext, MainActivity::class.java)
             startActivity(I)
 
@@ -71,6 +88,9 @@ class AvataraActivity : BasicActivity() {
             //앞으로는 밑에 리사이클러 뷰 박아서 그거 클릭 이벤트로 처리해야할듯
         }
     }
+
+
+
     fun saveProfileToURL(){
         val img = viewToBitmap(binding.layoutAvatara)
         var resultUri=saveFile(RandomFileName(), "image/jpeg", img)
@@ -79,6 +99,40 @@ class AvataraActivity : BasicActivity() {
 
 
 
+    }
+    fun postProfile(){
+        Log.d("머리가슴신발","${HeadNumber},${BodyNumber},${ShoesNumber}")
+        serverUtil_okhttp.postProfile(mContext,HeadNumber.toString(),BodyNumber.toString(),ShoesNumber.toString(),object :serverUtil_okhttp.JsonResponseHandler_login{
+            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+                if(RcCode=="201"){
+                    Toast.makeText(mContext, "성공:${RcCode.toString()}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    runOnUiThread{
+                        Toast.makeText(mContext, "에러:${RcCode.toString()}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        })
+    }
+    fun patchProfile(){
+        Log.d("머리가슴신발","${HeadNumber},${BodyNumber},${ShoesNumber}")
+        serverUtil_okhttp.patchProfile(mContext,HeadNumber.toString(),BodyNumber.toString(),ShoesNumber.toString(),object :serverUtil_okhttp.JsonResponseHandler_login{
+            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+                if(RcCode=="200"){
+                    Toast.makeText(mContext, "성공:${RcCode.toString()}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    runOnUiThread{
+                        Toast.makeText(mContext, "에러:${RcCode.toString()}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        })
     }
     fun RandomFileName() : String
     {
@@ -147,6 +201,7 @@ class AvataraActivity : BasicActivity() {
             override fun onClick(view: View, position: Int) {
 
                 Glide.with(mContext).load(avataraShowList[position].avataraPicture).into(binding.imgAvataraHead)
+                HeadNumber = position
             }
         })
     }
@@ -172,6 +227,7 @@ class AvataraActivity : BasicActivity() {
             override fun onClick(view: View, position: Int) {
 
                 Glide.with(mContext).load(avataraShowList[position].avataraPicture).into(binding.imgAvataraBody)
+                BodyNumber = position
             }
         })
     }
@@ -210,6 +266,7 @@ class AvataraActivity : BasicActivity() {
                     Glide.with(mContext).load(R.drawable.samp_shoe2_right).into(binding.imgAvataraRightFoot)
 
                 }
+                ShoesNumber=position
             }
         })
     }

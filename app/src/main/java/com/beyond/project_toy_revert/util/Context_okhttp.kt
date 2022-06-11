@@ -16,8 +16,9 @@ class Context_okhttp {
         private val avataraResult = "123"
         private val Nick ="NICK"
         private val UID = "ID"
+        private val AID = "ID"
         private val VIDEOUID = "VIDEOUID"
-        private val CDname = "code"
+        private val AVATARAOK = "OK?"
         private val AUTO_LOGIN = "AUTO_LOGIN"
         private val Auto_Boolean = false
 
@@ -44,8 +45,27 @@ class Context_okhttp {
             return  pref.getString(avataraResult, "")!!
         }
 
+        fun setAid(context: Context, Aid:String){
 
-//************************************************************************************************8
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+
+            // 입력들어온 token 내용 (TOKEN 항목에) 저장
+            pref.edit().putString(AID, Aid).apply()
+
+        }
+
+        fun getAid(context: Context):String{
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            //
+            return  pref.getString(AID, "")!!
+        }
+
+
+
+        //************************************************************************************************8
         fun setUri(context: Context, nick:String){
 
             // 메모장 파일을 열자
@@ -100,7 +120,7 @@ class Context_okhttp {
             return  pref.getString(POSTID, "")!!
         }
         //***********************************************************************
-        fun setReplyId(context: Context, replyid:String){
+        fun setPk(context: Context, replyid:String){
 
             // 메모장 파일을 열자
             val pref  =  context.getSharedPreferences(ReplyID, Context.MODE_PRIVATE)
@@ -110,12 +130,30 @@ class Context_okhttp {
 
         }
 
-        fun getReplyId(context: Context):String{
+        fun getPk(context: Context):String{
 
             // 메모장 파일을 열자
             val pref  =  context.getSharedPreferences(ReplyID, Context.MODE_PRIVATE)
             //
             return  pref.getString(ReplyID, "")!!
+        }
+//********************************************************************************
+fun setAvataOk(context: Context, avataOK:String){
+
+    // 메모장 파일을 열자
+    val pref  =  context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+
+    // 입력들어온 token 내용 (TOKEN 항목에) 저장
+    pref.edit().putString(AVATARAOK, avataOK).apply()
+
+}
+
+        fun getAvataOk(context: Context):String{
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            //
+            return  pref.getString(AVATARAOK, "")!!
         }
 //********************************************************************************
         fun setToken(context: Context, token:String){

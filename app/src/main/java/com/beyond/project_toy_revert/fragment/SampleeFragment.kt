@@ -61,9 +61,10 @@ class SampleeFragment : BaseFragment() {
         for(i in 0..5){
             var Data : replyDataModel = replyDataModel(
 
-            "clone3",
+                i.toFloat(),
             "샘플메세지입니다 ${i}",
-            i,
+
+                "clone3",
             null
 
 

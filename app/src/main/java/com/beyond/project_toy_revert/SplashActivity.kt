@@ -133,6 +133,7 @@ class SplashActivity : BasicActivity() {
                 // 서버에 다녀오고 실행 : 라이브러리가 자동으로 백그라운데어서 돌도록 만들어둔 코드
                 if(RcCode == "[\"token\",\"user\"]"){
                     val key = jsonObject.getString("token")
+                    val pk = jsonObject.getJSONObject("user").getString("pk")
 
 
 
@@ -141,9 +142,10 @@ class SplashActivity : BasicActivity() {
                         Toast.makeText(mContext, "${inputId}님, 환영합니다!", Toast.LENGTH_SHORT).show()
                         Context_okhttp.setToken(mContext, key)
                         Context_okhttp.setID(mContext, inputId)
+                        Context_okhttp.setPk(mContext, pk)
 
 
-                        Log.d("캬옹", inputId)
+                        Log.d("캬옹pk", pk)
                         val myIntent =  Intent(mContext, MainActivity::class.java)
                         myIntent.putExtra("id", inputId)
                         startActivity(myIntent)

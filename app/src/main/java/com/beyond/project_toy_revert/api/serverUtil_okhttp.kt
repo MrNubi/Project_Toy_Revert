@@ -154,14 +154,117 @@ class serverUtil_okhttp {
 
         }
 
-        fun postProfile(context:Context, Head:String,Body:String,Shoes:String, handler:JsonResponseHandler_login?){
-            val postedID = Context_okhttp.getPostId(context)
-            오류:주소확인
-            Log.d("유알엘", postedID)
+        fun getProfileData(context:Context, handler:JsonResponseHandler_login?){
+            val postedPK = Context_okhttp.getPk(context)
+            // 1) 어느 주소로 가야하는가? + 어떤 파라미터를 첨부하는가? 도 주소에 같이 포함
+            // => 라이브러리의 도움을 받자  HttpUrl 클래스 (OkHttp 소속)
+            val urlBuilder = "http://luckyfriends.kro.kr/users/${postedPK}/avatar/".toHttpUrlOrNull()!!.newBuilder()
+
+                .build()
+
+            val urlString = urlBuilder.toString()
+//            Log.d("완성된url: ", urlString)
+
+            // 2) 요청 정보 정리 -> Request 생성
+            val reauest = Request.Builder()
+                .url(urlString)
+                .header("Authorization", "JWT ${Context_okhttp.getToken(context)}")  // ContextUtil를 통해, 저장된 토큰을 받아서 첨부
+                .get()
+                .build()
+
+            // 3) Request 완성-> 서버에 호출, 응답을 화면에 넘기자
+            val client = OkHttpClient()
+            client.newCall(reauest).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    val KT = jsonObj.names().toString()
+                    val code = response.code
+                    Log.d("getProfile_이름", KT)
+                    Log.d("getProfile_코드", code.toString())
+                    Log.d("getProfile_서버응답: ", jsonObj.toString())
+
+                    handler?.onResponse(jsonObj,code.toString())
+                }
+            })
+
+        }
+
+        fun patchProfile(context:Context, Head:String,Body:String,Shoes:String, handler:JsonResponseHandler_login?){
+            val postedPK = Context_okhttp.getPk(context)
+            val postedAID = Context_okhttp.getAid(context)
+            Log.d("유알엘pk", postedPK)
             // Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
 
             // 제작 1) 어느 주소(url) 로 접근할지? => 서버주소 + 기능주소
-            val urlString = "http://luckyfriends.kro.kr/post/${postedID}/comments/"
+            val urlString = "http://luckyfriends.kro.kr/users/${postedPK}/avatar/${postedAID}/"
+
+
+            // 제작 2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
+            val formData = FormBody.Builder()
+                .add("head", Head)
+                .add("upper_body", Body)
+                .add("lower_body", Shoes)
+                .build()
+
+            // 제작 3) 모든 Request 정보를 종합한 객체 생성 (어느주소 + 어느 메소드로 + 어떤 파라미터를)
+            val request = Request.Builder()
+                .url(urlString)
+                .header("Authorization", "JWT ${Context_okhttp.getToken(context)}")  // ContextUtil를 통해, 저장된 토큰을 받아서 첨부
+                .patch(formData)
+                .build()
+
+            // 종합한 Request도 실제 호출을 해줘야 API 호출이 실행됨 (startActivity 같은 동작 필요함)
+            // 실제 호출: 클라이언트로써 동작 -> OkHttpClient 클래스
+            val client = OkHttpClient()
+
+            // OkHttpClient 객체를 이용-> 서버에 로그인 기능 실제 호출
+            // 호출을 했으면, 서버가 수행한 결과를 받아서 처리
+            // => 서버에 다녀와서 할일을 등록: enqueue(  Callback  )
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    // 실패: 서버에 연결 자체를 실패. 응답이 오지 않았다.
+                    // ex) 인터넷 끊김, 서버 접속 불가 등등 물리적 연결 실패
+                    // ex) 비번 틑려서 로그인 실패 : 서버 연결 성공, 응답도 돌아왔는데 -> 그 내용만 실패(물리적 실패X)
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    // 어떤 내용이던, 응답 자체는 잘 돌아온 경우 (그 내용은 성공/실패 일 수 있다)
+                    // 응답: response 변수 -> 응답의 본문(body)만 보자
+                    Log.d("캬옹", response.toString())
+                    val bodyString =  response.body?.string() // toString()고르면 안됨!, string()기능은 1회용. 변수에 담아두고 이용
+                    // 응답의 본문을 String으로 변환하면, JSON Encoding 적용된 상태(한글 깨짐)
+                    // JSONObject 객체로 응답본문String을 변환해주면, 한글이 복구됨
+                    // => UI에서도 JSONObject 이용해서, 데이터 추출 / 실제 활용
+                    val jsonObj = JSONObject(bodyString)
+
+                    val Rccode = response.code.toString()
+
+                    Log.d("댓글쓰기_응답내용",jsonObj.toString())
+                    Log.d("댓글쓰기_응답코드",Rccode)
+
+
+                    handler?.onResponse(jsonObj,Rccode)
+
+                }
+            })
+
+
+        }
+
+        fun postProfile(context:Context, Head:String,Body:String,Shoes:String, handler:JsonResponseHandler_login?){
+            val postedPK = Context_okhttp.getPk(context)
+            Log.d("유알엘pk", postedPK)
+            // Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
+
+            // 제작 1) 어느 주소(url) 로 접근할지? => 서버주소 + 기능주소
+            val urlString = "http://luckyfriends.kro.kr/users/${postedPK}/avatar/"
 
             // 제작 2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
             val formData = FormBody.Builder()
@@ -352,6 +455,39 @@ class serverUtil_okhttp {
                 }
             })
         }
+        //*********************************************************************************
+        fun getAllReplyData(context: Context, handler: JsonResponseHandler_login?){
+            val postedID = Context_okhttp.getPostId(context)
+            Log.d("유알엘", postedID)
+
+            val urlBuilder = "http://luckyfriends.kro.kr/post/${postedID}/comment-all".toHttpUrlOrNull()!!.newBuilder()
+                .build()  // 쿼리파라미터를 담을게 없다. 바로 build()로 마무리
+
+            var urlString = urlBuilder.toString()
+            Log.d("유알엘", urlString)
+
+            val request =  Request.Builder()
+                .url(urlString)
+//                .header("Authorization", "JWT ${Context_okhttp.getToken(context)}")  // ContextUtil를 통해, 저장된 토큰을 받아서 첨부
+                .get()
+                .build()
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val jsonObj = JSONObject(response.body!!.string())
+                    val KT = response.code.toString()
+                    Log.d("서버응답_getReplyData", jsonObj.toString())
+                    handler?.onResponse(jsonObj,KT)
+                }
+            })
+        }
+        //*********************************************************************************
         fun getReplyData(context: Context, handler: JsonResponseHandler_login?){
             val postedID = Context_okhttp.getPostId(context)
             Log.d("유알엘", postedID)
@@ -385,7 +521,7 @@ class serverUtil_okhttp {
         }
         //*********************************************************************
 
-        fun postReReply(context:Context,parent:String, message:String, handler:JsonResponseHandler_login?){
+        fun postReReply(context:Context,parent:Int, message:String, handler:JsonResponseHandler_login?){
             val postedID = Context_okhttp.getPostId(context)
             Log.d("유알엘", postedID)
             // Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
@@ -396,7 +532,7 @@ class serverUtil_okhttp {
             // 제작 2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
             val formData = FormBody.Builder()
                 .add("message", message)
-                .add("parent", parent)
+                .add("parent", parent.toString())
                 .build()
 
             // 제작 3) 모든 Request 정보를 종합한 객체 생성 (어느주소 + 어느 메소드로 + 어떤 파라미터를)

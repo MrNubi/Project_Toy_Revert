@@ -7,11 +7,14 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
+import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.avatara.AvataraActivity
 import com.beyond.project_toy_revert.databinding.ActivityMainBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : BasicActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -33,7 +36,7 @@ class MainActivity : BasicActivity() {
         val avataraUri = Context_okhttp.getAvatara(mContext)
         if(avataraUri != "123")
         Glide.with(mContext).load(avataraUri.toUri()).into(binding.imgMainAvatarZone)
-
+        checkAvatara()
         binding.imgMainAvatarZone.setOnClickListener {
             val I = Intent(mContext, AvataraActivity::class.java)
             startActivity(I)
@@ -63,7 +66,44 @@ class MainActivity : BasicActivity() {
 //            startActivity(myIntent)
 //        }
     }
+
+    fun checkAvatara(){
+        serverUtil_okhttp.getProfileData(mContext,object :serverUtil_okhttp.JsonResponseHandler_login{
+            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+
+
+                if(RcCode=="200"){
+                    val AvataraOK = jsonObject.getInt("count")
+                    if (AvataraOK != 0) {
+                        val Aresult: JSONArray? = jsonObject.getJSONArray("results")
+                        if (Aresult != null) {
+                            val t = Aresult.getJSONObject(0).getString("id")
+                            Context_okhttp.setAid(mContext, t)
+                            Log.d("아바타아이디", t)
+                        } else {
+                            Context_okhttp.setAid(mContext, "0")
+                            Log.d("아바타없음", "AID=0")
+                        }
+                    } else {
+                        Context_okhttp.setAid(mContext, "0")
+                        Log.d("아바타없음", "AID=0")
+                    }
+
+                    Context_okhttp.setAvataOk(mContext, AvataraOK.toString())
+                }
+
+                else{
+                    Log.d("아바타에러","${RcCode}")
+                }
+            }
+        })
+
+    }
+
+
     var mBackWait: Long = 0
+
+
     override fun onBackPressed() {
         // 뒤로가기버튼클릭
 
