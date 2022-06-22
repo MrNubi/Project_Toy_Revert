@@ -42,7 +42,7 @@ class sampleReplyAdapter(val sampleReplyList : MutableList<replyDataModel>) :
         RName!!.text = sampleReplyList[p0].replyName
         RMessage!!.text = sampleReplyList[p0].replyMessage
         if(RImg!=null){
-            Glide.with(context).load(R.drawable.spinning_golden_rectangle_cat1).into(RImg!!)
+            Glide.with(context).load(R.raw.spinning_golden_rectangle_cat1).into(RImg!!)
         }
 
         

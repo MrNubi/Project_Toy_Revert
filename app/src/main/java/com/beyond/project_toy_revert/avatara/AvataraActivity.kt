@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -42,8 +43,64 @@ class AvataraActivity : BasicActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_avatara)
 
+        var moveX = 0f
+        var moveY = 0f
 
+        binding.imgAvataraHead.setOnTouchListener { v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    moveX = v.x - event.rawX
+                    moveY = v.y - event.rawY
+                }
 
+                MotionEvent.ACTION_MOVE -> {
+                    v.animate()
+                        .x(event.rawX + moveX)
+                        .y(event.rawY + moveY)
+                        .setDuration(0)
+                        .start()
+                }
+            }
+
+            true
+        }
+
+        binding.imgAvataraLeftFoot.setOnTouchListener { v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    moveX = v.x - event.rawX
+                    moveY = v.y - event.rawY
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    v.animate()
+                        .x(event.rawX + moveX)
+                        .y(event.rawY + moveY)
+                        .setDuration(0)
+                        .start()
+                }
+            }
+
+            true
+        }
+        binding.imgAvataraRightFoot.setOnTouchListener { v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    moveX = v.x - event.rawX
+                    moveY = v.y - event.rawY
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    v.animate()
+                        .x(event.rawX + moveX)
+                        .y(event.rawY + moveY)
+                        .setDuration(0)
+                        .start()
+                }
+            }
+
+            true
+        }
         binding.avataraTab1.setOnClickListener {
             binding.LinAvataraRvShower.visibility=View.VISIBLE
             binding.linearAvataraTabChoiceShower2.visibility = View.GONE

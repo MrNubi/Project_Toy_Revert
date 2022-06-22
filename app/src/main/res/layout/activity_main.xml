@@ -36,6 +36,7 @@
                         android:layout_height="match_parent"></ImageView>
                 </LinearLayout>
                 <ImageView
+                    android:id="@+id/img_main_cloud"
                     android:src="@drawable/cloud"
                     android:layout_width="100dp"
                     android:layout_height="100dp"></ImageView>

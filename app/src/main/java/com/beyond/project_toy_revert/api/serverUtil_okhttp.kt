@@ -401,7 +401,7 @@ class serverUtil_okhttp {
             client.newCall(reauest).enqueue(object : Callback {
 
                 override fun onFailure(call: Call, e: IOException) {
-
+                    Log.d("이름", "KT")
                 }
 
                 override fun onResponse(call: Call, response: Response) {

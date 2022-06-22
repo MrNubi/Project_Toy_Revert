@@ -235,9 +235,9 @@ class ReplyFragment : BaseFragment() {
                     val resultAnnounce = jsonObject.getJSONArray("results")
                     val resultCount = jsonObject.getInt("count")
                     if (resultCount!=0){
-                    var size: Int = resultAnnounce.length()
+                    val size: Int = resultAnnounce.length()
                     for(i in 0..size-1){
-                        var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
+                        val json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
                         var author_reply = json_objdetail.getJSONObject("author").getString("nickname")
                         var replyID = json_objdetail.getInt("id")
                         var replyParant:String? =json_objdetail.getString("parent")?:null

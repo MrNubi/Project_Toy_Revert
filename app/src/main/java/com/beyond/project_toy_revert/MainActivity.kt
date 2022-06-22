@@ -48,7 +48,10 @@ class MainActivity : BasicActivity() {
             val myIntent =  Intent(mContext, SplashActivity::class.java)
             startActivity(myIntent)
         }
-
+        binding.imgMainCloud.setOnClickListener {
+            val myIntent =  Intent(mContext, SplashActivity::class.java)
+            startActivity(myIntent)
+        }
 
 
 //        val id = Context_okhttp.getID(mContext)
