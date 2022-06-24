@@ -4,20 +4,21 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.beyond.project_toy_revert.MainActivity
 import com.beyond.project_toy_revert.R
@@ -32,9 +33,12 @@ class testWriteDownActivity : BasicActivity() {
     private lateinit var binding: ActivityTestWriteDownBinding
     private var imgClicked = false
     private var imgClickedInt = 1
+    private var hightReturn = 0
+    private var clicker =0
     private var imgStyle = "none"
     //1 -> 초기값(imgClicked == false), false 2 -> img 1clicked(imgClicked == true) , 3-> img 2Clicked(imgClicked == false)
     val CAMERA_CODE = 98
+    var textColor = 0
     val intentActionPick = 100
     val VIDEOFILE_REQUEST = 120
     val imgUrlList = mutableListOf<Uri>()
@@ -46,18 +50,40 @@ class testWriteDownActivity : BasicActivity() {
 
         binding.btnAddtextView.setOnClickListener {
             setTextDialog()
+
         }
         binding.btnAddImageView.setOnClickListener {
             dialogChoicePictureType()
+
+        }
+        binding.btnFinishBtn.setOnClickListener {
+
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    fun createTextView(text:String): View {
+    fun createTextView(text:String,color:Int): View {
         val newText = TextView(mContext)
         newText.text = text
-        val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1F)
+        newText.setBackgroundResource(R.drawable.background)
+        newText.setPadding(20)
+        when(color){
+            0->newText.setTextColor(getResources().getColor(R.color.white))
+            1->newText.setTextColor(getResources().getColor(R.color.purple_200))
+            2->newText.setTextColor(getResources().getColor(R.color.purple_500))
+            3->newText.setTextColor(getResources().getColor(R.color.Yellow))
+            4->newText.setTextColor(getResources().getColor(R.color.red))
+            5->newText.setTextColor(getResources().getColor(R.color.black))
+            else -> {
+                Log.d("색상픽 오류", "0~5 바깥")
+                newText.setTextColor(getResources().getColor(R.color.white))
+            }
+        }
+        val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,)
         newText.layoutParams = lp
+        newText.setTextSize(30.0f)
+        lp.gravity = Gravity.CENTER_HORIZONTAL
+        lp.topMargin = 20
         newText.setOnClickListener {
             Toast.makeText(mContext, "${newText.text}", Toast.LENGTH_SHORT).show()
             Log.d("newText","클릭")
@@ -65,38 +91,109 @@ class testWriteDownActivity : BasicActivity() {
         var moveX = 0f
         var moveY = 0f
 
-        newText.setOnTouchListener { v, event ->
-            when(event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    moveX = v.x - event.rawX
-                    moveY = v.y - event.rawY
-                    Log.d("newText_moveX",moveX.toString())
-                    Log.d("newText_moveY",moveY.toString())
-
-
-
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    v.animate()
-                        .x(event.rawX + moveX)
-                        .y(event.rawY + moveY)
-                        .setDuration(0)
-                        .start()
-
-                    Log.d("newText_animateX", (event.rawX + moveX).toString())
-                    Log.d("newText_animateY", (event.rawX + moveX).toString())
-                }
-            }
-
-            true
-        }
+//        newText.setOnTouchListener { v, event ->
+//            when(event.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    moveX = v.x - event.rawX
+//                    moveY = v.y - event.rawY
+//                    Log.d("newText_moveX",moveX.toString())
+//                    Log.d("newText_moveY",moveY.toString())
+//
+//
+//
+//                }
+//
+//                MotionEvent.ACTION_MOVE -> {
+//                    v.animate()
+//                        .x(event.rawX + moveX)
+//                        .y(event.rawY + moveY)
+//                        .setDuration(0)
+//                        .start()
+//
+//                    Log.d("newText_animateX", (event.rawX + moveX).toString())
+//                    Log.d("newText_animateY", (event.rawX + moveX).toString())
+//                }
+//            }
+//
+//            true
+//        }
 
         newText.id = ViewCompat.generateViewId()
         Log.d("newText_id",newText.id.toString())
 
-
+        hightReturn = newText.height
         return newText
+    }
+
+    fun imgSetting(uri:String):View{
+        val newImage = ImageView(mContext)
+
+        val lp = LinearLayout.LayoutParams(
+            150,
+            150,
+        )
+        lp.gravity = Gravity.CENTER_HORIZONTAL
+//        lp.setMargins(80,5,0,0)
+        lp.topMargin = 20
+
+        newImage.layoutParams = lp
+        newImage.setOnClickListener {
+            clicker++
+            var curWidth = newImage.width
+            val originWidth = 150
+            var curHeight = newImage.height
+            val originHeight = 150
+            if(clicker<3){
+
+                newImage.layoutParams.width = curWidth + 100
+                newImage.layoutParams.height = curHeight + 100
+                newImage.requestLayout()
+            }
+            else if(clicker>=3){
+                clicker = 0
+                newImage.layoutParams.width = originWidth
+                newImage.layoutParams.height = originHeight
+                newImage.requestLayout()
+            }
+
+            Toast.makeText(mContext, "이미지가 생성되었습니다", Toast.LENGTH_SHORT).show()
+            Log.d("newText","클릭")
+        }
+        var moveX = 0f
+        var moveY = 0f
+
+//        newImage.setOnTouchListener { v, event ->
+//            when(event.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    moveX = v.x - event.rawX
+//                    moveY = v.y - event.rawY
+//                    Log.d("newText_moveX",moveX.toString())
+//                    Log.d("newText_moveY",moveY.toString())
+//
+//
+//
+//                }
+//
+//                MotionEvent.ACTION_MOVE -> {
+//                    v.animate()
+//                        .x(event.rawX + moveX)
+//                        .y(event.rawY + moveY)
+//                        .setDuration(0)
+//                        .start()
+//
+//                    Log.d("newText_animateX", (event.rawX + moveX).toString())
+//                    Log.d("newText_animateY", (event.rawX + moveX).toString())
+//                }
+//            }
+//
+//            true
+//        }
+
+        newImage.id = ViewCompat.generateViewId()
+        Log.d("newText_id",newImage.id.toString())
+
+        Glide.with(mContext).load(uri).into(newImage)
+        return newImage
     }
 
     fun setTextDialog(){
@@ -106,9 +203,49 @@ class testWriteDownActivity : BasicActivity() {
             .setTitle("택스트를 입력해주세요")
 
         val alertDialog = mBuilder.show()
+        alertDialog.findViewById<LinearLayout>(R.id.Lin_dialogColorBar)?.visibility=View.VISIBLE
+        alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.hint = "입력"
+
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor1)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.purple_200))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.purple_200))
+            textColor = 1
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor2)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.purple_500))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.purple_500))
+            textColor = 2
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor3)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.Yellow))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.Yellow))
+            textColor = 3
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor4)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.red))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.red))
+            textColor = 4
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor5)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.black))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.black))
+            textColor = 5
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+        alertDialog.findViewById<ImageView>(R.id.img_dialogColor6)?.setOnClickListener{
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setTextColor(getResources().getColor(R.color.white))
+            alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.setHintTextColor(getResources().getColor(R.color.white))
+            textColor = 0
+            Log.d("sampleWrite_textColor", textColor.toString())
+        }
+
         alertDialog.findViewById<ImageView>(R.id.btn_dialog_commentPush)?.setOnClickListener{
             val text =  alertDialog.findViewById<EditText>(R.id.edt_dialog_comment)?.text.toString()
-            binding.LinTestWriteParent.addView(createTextView(text))
+            binding.LinTestWriteParent.addView(createTextView(text,textColor))
             alertDialog.dismiss()
         }
     }
@@ -162,7 +299,7 @@ class testWriteDownActivity : BasicActivity() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 
-        gallery.action = Intent.ACTION_GET_CONTENT
+        gallery.action = Intent.ACTION_PICK
 
         startActivityForResult(gallery, intentActionPick)
         imgClicked = true
@@ -196,8 +333,10 @@ class testWriteDownActivity : BasicActivity() {
                 for(i in 0 until imgCount){
                     val imgUri = data.clipData!!.getItemAt(i).uri
                     imgUrlList.add(imgUri)
+
                 }
                 imgStyle = "multipleImg"
+                binding.LinTestWriteParent.addView(imgSetting(data.clipData!!.getItemAt(0).uri.toString()))
 
                 Log.d("이미지여부 in onActivityResult - 다중픽 성공",imgClicked.toString()+", "+imgClickedInt.toString()+", "+imgStyle)
 
@@ -213,6 +352,8 @@ class testWriteDownActivity : BasicActivity() {
                 Log.d("이미지여부 in onActivityResult - 단일픽 성공",imgClicked.toString()+imgClickedInt.toString()+imgStyle)
 
                 Context_okhttp.setUri(mContext, data?.data.toString())
+                binding.LinTestWriteParent.addView(imgSetting(data?.data.toString()))
+
                 Log.d("강산", Context_okhttp.getUri(mContext))
             }//else
         }// if(resultCode == RESULT_OK && requestCode == intentActionPick)
@@ -232,14 +373,14 @@ class testWriteDownActivity : BasicActivity() {
                 Log.d("도모", kt)
                 imgClicked = true
                 imgClickedInt =2
-                binding.imgBwriteCam.setImageURI(uri)
+                binding.LinTestWriteParent.addView(imgSetting(kt))
             }
         }// if(resultCode == RESULT_OK && requestCode == CAMERA_CODE)
         if(resultCode == RESULT_OK && requestCode == VIDEOFILE_REQUEST){
 
 
             val img_Bwrite_cam = findViewById<ImageView>(R.id.img_Bwrite_cam)
-            Glide.with(mContext).load(R.drawable.ic_baseline_videocam_24).into(img_Bwrite_cam)
+            // 비디오뷰 생성 후 걸어줘야됨
 
             imgStyle="video"
             imgClicked = true
@@ -283,9 +424,7 @@ class testWriteDownActivity : BasicActivity() {
 
         return uri;
     }
-        fun imgSetting(){
 
-        }
 
     override fun onBackPressed() {
         val bwintent = Intent(mContext, MainActivity::class.java)

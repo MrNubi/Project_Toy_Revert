@@ -9,9 +9,9 @@
     android:layout_height="match_parent"
     tools:context=".testActivity.testWriteDownActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
         <LinearLayout
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -22,7 +22,8 @@
             android:layout_marginTop="4dp">
 
         </LinearLayout>
-    </ScrollView>
+
+</ScrollView>
 
     <ImageButton
         android:id="@+id/btn_addtextView"
@@ -30,7 +31,7 @@
         android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="259dp"
         android:layout_marginBottom="38dp"
         android:background="@color/sellected_color"
         android:scaleType="centerCrop"
@@ -49,6 +50,19 @@
         android:background="@color/sellected_color"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_image_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"></ImageButton>
+    <ImageButton
+        android:id="@+id/btn_finishBtn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="38dp"
+        android:background="@color/sellected_color"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"></ImageButton>
 

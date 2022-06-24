@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
     <LinearLayout
         android:background="@drawable/background"
-        android:backgroundTint="#FF5722"
+        android:backgroundTint="@color/sellected_color"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
 
@@ -29,6 +29,68 @@
             android:src="@drawable/btn_pen2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+<!--    **************************************************************-->
+    <LinearLayout
+        android:id="@+id/Lin_dialogColorBar"
+
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        android:backgroundTint="#FFA0A0"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor1"
+
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/purple_200"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor2"
+
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/purple_500"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor3"
+
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/Yellow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor4"
+
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/red"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor5"
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/black"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dialogColor6"
+
+                android:layout_marginHorizontal="5dp"
+                android:src="@color/white"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
