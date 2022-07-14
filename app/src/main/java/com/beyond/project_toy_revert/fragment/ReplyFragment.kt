@@ -16,7 +16,7 @@ import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.databinding.FragmentReplyBinding
 import com.beyond.project_toy_revert.datas.replyDataModel
 import com.beyond.project_toy_revert.inheritance.BaseFragment
-import com.google.android.material.internal.ContextUtils
+import org.json.JSONArray
 import org.json.JSONObject
 import java.time.LocalDateTime
 
@@ -42,13 +42,14 @@ class ReplyFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getAllReplyData()
+        getAllReplyData2()
         setValues()
         setupEvents()
 
     }
 
     override fun setupEvents() {
+
         binding.btnReplyFragCommentPush.setOnClickListener {
             val replyText = binding.edtReplyFragComment.text.toString()
             serverUtil_okhttp.postReply(mContext,replyText,object :serverUtil_okhttp.JsonResponseHandler_login{
@@ -56,7 +57,7 @@ class ReplyFragment : BaseFragment() {
                     if(RcCode == "201"){
                         activity?.runOnUiThread{
                             Toast.makeText(mContext, "댓글작성완료", Toast.LENGTH_SHORT).show()
-                            getAllReplyData()
+                            getAllReplyData2()
                             binding.edtReplyFragComment.setText("")
                         }
 
@@ -90,7 +91,7 @@ class ReplyFragment : BaseFragment() {
 
                                 activity?.runOnUiThread{
                                     Toast.makeText(context, "대댓글작성완료", Toast.LENGTH_SHORT).show()
-                                    getAllReplyData()}
+                                    getAllReplyData2()}
 
                             }
                             else{
@@ -112,9 +113,126 @@ class ReplyFragment : BaseFragment() {
                 Toast.makeText(mContext, "지금은 댓글에만 대댓글을 달 수 있습니다", Toast.LENGTH_SHORT).show()
            }
         }//sOICL
+        binding.btnReplyPagination1.setOnClickListener {
+            val timeNow = LocalDateTime.now().toString()
+                .replace("-","")
+                .replace("T","")
+                .replace(":","")+"999"
+            serverUtil_okhttp.getAllReplyDataToPagination(mContext,"1", object :serverUtil_okhttp.JsonResponseHandler_login{
+                override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+                    if(RcCode == "200"){
+                        val resultAnnounce = jsonObject.getJSONArray("results")
 
 
-    }
+                            var size: Int = resultAnnounce.length()
+                        replyList = mutableListOf<replyDataModel>()
+                            for(i in 0..size-1){
+                                var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
+                                var author_reply = json_objdetail.getJSONObject("author").getString("nickname")
+                                var replyID = json_objdetail.getInt("id")
+                                var replyParant=json_objdetail.get("parent")
+                                Log.d("${replyParant}","리플리_parent")
+                                var last_repyId:Float = if("${replyParant}"=="null")replyID.toFloat() else "${replyParant}.${replyID}".toFloat()
+                                Log.d("${last_repyId}","리플리_lastId")
+                                var reply_createdAt = json_objdetail.getString("created_at")
+                                    .replace("-","")
+                                    .replace("T","")
+                                    .replace(":","")
+                                    .replace("+0900","")
+                                var timeChecker : Double=  timeNow.toDouble() - reply_createdAt.toDouble()
+
+                                Log.d("시간",reply_createdAt)
+
+                                Log.d("시간_t/r",reply_createdAt.toDouble().toString())
+                                Log.d("시간_checker",timeChecker.toString())
+                                var Data : replyDataModel = replyDataModel(
+                                    last_repyId,
+                                    json_objdetail.getString("message"),
+                                    author_reply,
+                                    "${replyParant}"
+                                )
+
+
+                                replyList.add(Data)
+                                Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+                            }//for
+                            Log.d("데이터리스트", replyList.toString())
+                            replyList = replyList.sortedBy{it.replyId} as MutableList<replyDataModel>
+                            activity?.runOnUiThread{
+
+                                curruntReplyAdapter = replyAdapter(mContext, replyList)
+                                curruntReplyAdapter.notifyDataSetChanged()
+                                binding.LVReplyFrag.adapter = curruntReplyAdapter
+                            }
+
+
+                    }//if code==200
+                }
+            })
+
+        }
+
+        binding.btnReplyPagination2.setOnClickListener {
+            val timeNow = LocalDateTime.now().toString()
+                .replace("-","")
+                .replace("T","")
+                .replace(":","")+"999"
+            serverUtil_okhttp.getAllReplyDataToPagination(mContext,"2", object :serverUtil_okhttp.JsonResponseHandler_login{
+                override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+                    if(RcCode == "200"){
+                        val resultAnnounce = jsonObject.getJSONArray("results")
+
+
+                        var size: Int = resultAnnounce.length()
+                        replyList = mutableListOf<replyDataModel>()
+
+                        for(i in 0..size-1){
+                            var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
+                            var author_reply = json_objdetail.getJSONObject("author").getString("nickname")
+                            var replyID = json_objdetail.getInt("id")
+                            var replyParant=json_objdetail.get("parent")
+                            Log.d("${replyParant}","리플리_parent")
+                            var last_repyId:Float = if("${replyParant}"=="null")replyID.toFloat() else "${replyParant}.${replyID}".toFloat()
+                            Log.d("${last_repyId}","리플리_lastId")
+                            var reply_createdAt = json_objdetail.getString("created_at")
+                                .replace("-","")
+                                .replace("T","")
+                                .replace(":","")
+                                .replace("+0900","")
+                            var timeChecker : Double=  timeNow.toDouble() - reply_createdAt.toDouble()
+
+                            Log.d("시간",reply_createdAt)
+
+                            Log.d("시간_t/r",reply_createdAt.toDouble().toString())
+                            Log.d("시간_checker",timeChecker.toString())
+                            var Data : replyDataModel = replyDataModel(
+                                last_repyId,
+                                json_objdetail.getString("message"),
+                                author_reply,
+                                "${replyParant}"
+                            )
+                            replyList.add(Data)
+                            Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+                        }//for
+                        Log.d("데이터리스트", replyList.toString())
+                        replyList = replyList.sortedBy{it.replyId} as MutableList<replyDataModel>
+                        activity?.runOnUiThread{
+
+                            curruntReplyAdapter = replyAdapter(mContext, replyList)
+                            curruntReplyAdapter.notifyDataSetChanged()
+                            binding.LVReplyFrag.adapter = curruntReplyAdapter
+                        }
+
+
+                    }//if code==200
+                }
+            })
+
+        }
+
+
+
+    }//setEvent
 
     override fun setValues() {
     }
@@ -170,61 +288,172 @@ class ReplyFragment : BaseFragment() {
         })
     }
 
-    fun getAllReplyData(){
-//        replyList = mutableListOf<replyDataModel>()
+//    fun getAllReplyData(){
+////        replyList = mutableListOf<replyDataModel>()
+//        val timeNow = LocalDateTime.now().toString()
+//            .replace("-","")
+//            .replace("T","")
+//            .replace(":","")+"999"
+//
+//        Log.d("현재 시간",timeNow.toString())
+//        serverUtil_okhttp.getAllReplyData(mContext,object :serverUtil_okhttp.JsonResponseHandler_login{
+//            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+//                if(RcCode == "200"){
+//                    val resultAnnounce = jsonObject.getJSONArray("results")
+//                    val countReply = jsonObject.getInt("count")
+//                    val countReply_Head = countReply/10
+//                    if(countReply==0){
+//                        binding.LVReplyFrag.visibility= View.GONE
+//                    }
+//                    if(countReply!=0){
+//                    var size: Int = resultAnnounce.length()
+//                    for(i in 0..size-1){
+//                        var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
+//                        var author_reply = json_objdetail.getJSONObject("author").getString("nickname")
+//                        var replyID = json_objdetail.getInt("id")
+//                        var replyParant=json_objdetail.get("parent")
+//                        Log.d("${replyParant}","리플리_parent")
+//                        var last_repyId:Float = if("${replyParant}"=="null")replyID.toFloat() else "${replyParant}.${replyID}".toFloat()
+//                        Log.d("${last_repyId}","리플리_lastId")
+//                        var reply_createdAt = json_objdetail.getString("created_at")
+//                            .replace("-","")
+//                            .replace("T","")
+//                            .replace(":","")
+//                            .replace("+0900","")
+//                        var timeChecker : Double=  timeNow.toDouble() - reply_createdAt.toDouble()
+//
+//                        Log.d("시간",reply_createdAt)
+//
+//                        Log.d("시간_t/r",reply_createdAt.toDouble().toString())
+//                        Log.d("시간_checker",timeChecker.toString())
+//                        var Data : replyDataModel = replyDataModel(
+//                            last_repyId,
+//                            json_objdetail.getString("message"),
+//                            author_reply,
+//                            "${replyParant}"
+//                        )
+//
+//                        replyList.add(Data)
+//                        Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+//                    }//for
+//                    Log.d("데이터리스트", replyList.toString())
+//                    replyList = replyList.sortedBy{it.replyId} as MutableList<replyDataModel>
+//                    activity?.runOnUiThread{
+//
+//                        if(countReply>10){
+//                            binding.LinReplyPaginationBar.visibility = View.VISIBLE
+//                            binding.btnReplyPagination1.visibility = View.VISIBLE
+//                            binding.btnReplyPagination2.visibility = View.VISIBLE
+//                            if (countReply>20){
+//                                binding.btnReplyPagination3.visibility = View.VISIBLE
+//                                if (countReply>30){
+//                                    binding.btnReplyPaginationElse.visibility = View.VISIBLE
+//                                }
+//                            }
+//                       }//if(countReply>10)
+//                        curruntReplyAdapter = replyAdapter(mContext, replyList)
+//                        curruntReplyAdapter.notifyDataSetChanged()
+//                        binding.LVReplyFrag.adapter = curruntReplyAdapter
+//                    }
+//
+//                }//if count!=0
+//               }//if code==200
+//            }
+//        })
+//    }
+    //****************************************************************************************************************
+    fun getAllReplyData2(){
+        replyList = mutableListOf<replyDataModel>()
         val timeNow = LocalDateTime.now().toString()
             .replace("-","")
             .replace("T","")
             .replace(":","")+"999"
 
         Log.d("현재 시간",timeNow.toString())
-        serverUtil_okhttp.getAllReplyData(mContext,object :serverUtil_okhttp.JsonResponseHandler_login{
-            override fun onResponse(jsonObject: JSONObject, RcCode: String) {
+        serverUtil_okhttp.getAllReplyData(mContext,object :serverUtil_okhttp.JsonResponseHandler_login2{
+            override fun onResponse(jsonObject: JSONArray, RcCode: String) {
                 if(RcCode == "200"){
-                    val resultAnnounce = jsonObject.getJSONArray("results")
-                    var size: Int = resultAnnounce.length()
+                    var size = jsonObject.length()
+
                     for(i in 0..size-1){
-                        var json_objdetail: JSONObject = resultAnnounce.getJSONObject(i)
-                        var author_reply = json_objdetail.getJSONObject("author").getString("nickname")
-                        var replyID = json_objdetail.getInt("id")
-                        var replyParant=json_objdetail.get("parent")
-                        Log.d("${replyParant}","리플리_parent")
-                        var last_repyId:Float = if("${replyParant}"=="null")replyID.toFloat() else "${replyParant}.${replyID}".toFloat()
-                        Log.d("${last_repyId}","리플리_lastId")
-                        var reply_createdAt = json_objdetail.getString("created_at")
-                            .replace("-","")
-                            .replace("T","")
-                            .replace(":","")
-                            .replace("+0900","")
-                        var timeChecker : Double=  timeNow.toDouble() - reply_createdAt.toDouble()
+                        var responseObj= jsonObject[i]
+                        if(responseObj is JSONObject){
+                            val yp = responseObj.getString("message")
+                            Log.d("타입 if", yp)
+                            Log.d("타입 if2", size.toString())
 
-                        Log.d("시간",reply_createdAt)
+                                var author_reply = responseObj.getJSONObject("author").getString("nickname")
+                                var replyID = responseObj.getInt("id")
+                                var replyParant=responseObj.get("parent")
+                                Log.d("${replyParant}","리플리_parent")
+                                var last_repyId:Float = if("${replyParant}"=="null")replyID.toFloat() else "${replyParant}.${replyID}".toFloat()
+                                Log.d("${last_repyId}","리플리_lastId")
+                                var reply_createdAt = responseObj.getString("created_at")
+                                    .replace("-","")
+                                    .replace("T","")
+                                    .replace(":","")
+                                    .replace("+0900","")
+                                    .replace(" ","")
+                                var timeChecker : Double=  timeNow.toDouble() - reply_createdAt.toDouble()
 
-                        Log.d("시간_t/r",reply_createdAt.toDouble().toString())
-                        Log.d("시간_checker",timeChecker.toString())
-                        var Data : replyDataModel = replyDataModel(
-                            last_repyId,
-                            json_objdetail.getString("message"),
-                            author_reply,
-                            "${replyParant}"
-                        )
+                                Log.d("시간",reply_createdAt)
 
-                        replyList.add(Data)
-                        Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+                                Log.d("시간_t/r",reply_createdAt.toDouble().toString())
+                                Log.d("시간_checker",timeChecker.toString())
+                                var Data : replyDataModel = replyDataModel(
+                                    last_repyId,
+                                    responseObj.getString("message"),
+                                    author_reply,
+                                    "${replyParant}"
+                                )
+                            Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+
+                                replyList.add(Data)
+                                Log.d("시발",Data.replyId.toString()+" / "+Data.replyParent+" / "+Data.replyMessage)
+                        }//if
+
                     }//for
-                    Log.d("데이터리스트", replyList.toString())
-                    replyList = replyList.sortedBy{it.replyId} as MutableList<replyDataModel>
-                    activity?.runOnUiThread{
-                        curruntReplyAdapter = replyAdapter(mContext, replyList)
-                        curruntReplyAdapter.notifyDataSetChanged()
-                        binding.LVReplyFrag.adapter = curruntReplyAdapter
+                            Log.d("데이터리스트", replyList.toString())
+                            replyList = replyList.sortedBy{it.replyId} as MutableList<replyDataModel>
+                            activity?.runOnUiThread{
+
+//                                if(size>10){
+//                                    binding.LinReplyPaginationBar.visibility = View.VISIBLE
+//                                    binding.btnReplyPagination1.visibility = View.VISIBLE
+//                                    binding.btnReplyPagination2.visibility = View.VISIBLE
+//                                    if (size>20){
+//                                        binding.btnReplyPagination3.visibility = View.VISIBLE
+//                                        if (size>30){
+//                                            binding.btnReplyPaginationElse.visibility = View.VISIBLE
+//                                        }
+//                                    }
+//                                }//if(countReply>10)
+                                curruntReplyAdapter = replyAdapter(mContext, replyList)
+                                curruntReplyAdapter.notifyDataSetChanged()
+                                binding.LVReplyFrag.adapter = curruntReplyAdapter
+                            }
 
 
-                    }
-                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }//if code==200
             }
         })
     }
+    //****************************************************************************************************************
+
 
     fun getReReplyData(replyid:String){
 

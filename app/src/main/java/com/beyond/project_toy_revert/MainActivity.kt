@@ -11,6 +11,7 @@ import com.beyond.project_toy_revert.api.serverUtil_okhttp
 import com.beyond.project_toy_revert.avatara.AvataraActivity
 import com.beyond.project_toy_revert.databinding.ActivityMainBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
+import com.beyond.project_toy_revert.myPage.MypageBoardActivity
 import com.beyond.project_toy_revert.testActivity.testWriteDownActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
 import com.bumptech.glide.Glide
@@ -50,7 +51,7 @@ class MainActivity : BasicActivity() {
             startActivity(myIntent)
         }
         binding.imgMainCloud.setOnClickListener {
-            val myIntent =  Intent(mContext, testWriteDownActivity::class.java)
+            val myIntent =  Intent(mContext, MypageBoardActivity::class.java)
             startActivity(myIntent)
         }
 

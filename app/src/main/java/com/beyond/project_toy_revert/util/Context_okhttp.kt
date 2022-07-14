@@ -21,6 +21,7 @@ class Context_okhttp {
         private val AVATARAOK = "OK?"
         private val AUTO_LOGIN = "AUTO_LOGIN"
         private val Auto_Boolean = false
+        private val mp_Pagination = "1"
 
 
         // 데이터 저장 함수(setter) / 조회 함수 (getter)   별개로 작성
@@ -44,6 +45,26 @@ class Context_okhttp {
             //
             return  pref.getString(avataraResult, "")!!
         }
+        //*********************************************************************************************
+        fun setPg(context: Context, mpPgCode:String){
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(mp_Pagination, Context.MODE_PRIVATE)
+
+            // 입력들어온 token 내용 (TOKEN 항목에) 저장
+            pref.edit().putString(mp_Pagination, mpPgCode).apply()
+
+        }
+
+        fun getPg(context: Context):String{
+
+            // 메모장 파일을 열자
+            val pref  =  context.getSharedPreferences(mp_Pagination, Context.MODE_PRIVATE)
+            //
+            return  pref.getString(mp_Pagination, "")!!
+        }
+
+        //*********************************************************************************************
 
         fun setAid(context: Context, Aid:String){
 

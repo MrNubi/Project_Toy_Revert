@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout
+
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".myPage.MypageFrag.MypageMyReplyFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:backgroundTint="#6175E4"
+        android:id="@+id/rv_myReply_myReplyShowRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myReply_pagination1"
+            android:text="1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myReply_pagination2"
+            android:text="2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myReply_pagination3"
+            android:text="3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myReply_pagination4"
+            android:text="4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myReply_paginationElse"
+            android:text="..."
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+    </layout>

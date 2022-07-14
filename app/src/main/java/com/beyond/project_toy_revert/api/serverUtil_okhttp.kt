@@ -6,6 +6,7 @@ import android.util.Log
 import com.beyond.project_toy_revert.util.Context_okhttp
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -17,6 +18,10 @@ class serverUtil_okhttp {
     }
     interface JsonResponseHandler_login{
         fun onResponse(jsonObject: JSONObject, RcCode:String)
+    }
+
+    interface JsonResponseHandler_login2{
+        fun onResponse(jsonArray: JSONArray, RcCode:String)
     }
     interface JsonResponseHandler_Like{
         fun onResponse(jsonObject: JSONObject, RcCode:String, Rcname:String)
@@ -456,7 +461,39 @@ class serverUtil_okhttp {
             })
         }
         //*********************************************************************************
-        fun getAllReplyData(context: Context, handler: JsonResponseHandler_login?){
+        fun getAllReplyDataToPagination(context: Context,i:String, handler: JsonResponseHandler_login?){
+            val postedID = Context_okhttp.getPostId(context)
+            Log.d("유알엘", postedID)
+
+            val urlBuilder = "http://luckyfriends.kro.kr/post/${postedID}/comment-all?page=${i}".toHttpUrlOrNull()!!.newBuilder()
+                .build()  // 쿼리파라미터를 담을게 없다. 바로 build()로 마무리
+
+            var urlString = urlBuilder.toString()
+            Log.d("유알엘", urlString)
+
+            val request =  Request.Builder()
+                .url(urlString)
+//                .header("Authorization", "JWT ${Context_okhttp.getToken(context)}")  // ContextUtil를 통해, 저장된 토큰을 받아서 첨부
+                .get()
+                .build()
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val jsonObj = JSONObject(response.body!!.string())
+                    val KT = response.code.toString()
+                    Log.d("서버응답_getReplyData", jsonObj.toString())
+                    handler?.onResponse(jsonObj,KT)
+                }
+            })
+        }
+        //*********************************************************************************
+        fun getAllReplyData(context: Context, handler: JsonResponseHandler_login2?){
             val postedID = Context_okhttp.getPostId(context)
             Log.d("유알엘", postedID)
 
@@ -480,9 +517,43 @@ class serverUtil_okhttp {
 
                 override fun onResponse(call: Call, response: Response) {
 
-                    val jsonObj = JSONObject(response.body!!.string())
+                    val jsonObj = JSONArray(response.body!!.string())
+                    val body = response.body.toString()
+                    //북마크
                     val KT = response.code.toString()
                     Log.d("서버응답_getReplyData", jsonObj.toString())
+                    handler?.onResponse(jsonObj,KT)
+                }
+            })
+        }
+        //*********************************************************************************
+        fun getMyData(context: Context,page:Int,type:String,handler: JsonResponseHandler_login?){
+            val userID = Context_okhttp.getPk(context)
+            Log.d("유저아이디",userID)
+            Log.d("유저유알엘","luckyfriends.kro.kr/users/${userID}/${type}?page=${page}")
+            val urlBuilder = "http://luckyfriends.kro.kr/users/${userID}/comment?page=${page}".toHttpUrlOrNull()!!.newBuilder()
+                .build()  // 쿼리파라미터를 담을게 없다. 바로 build()로 마무리
+
+            var urlString = urlBuilder.toString()
+            Log.d("유알엘", urlString)
+
+            val request =  Request.Builder()
+                .url(urlString)
+                .header("Authorization", "JWT ${Context_okhttp.getToken(context)}")  // ContextUtil를 통해, 저장된 토큰을 받아서 첨부
+                .get()
+                .build()
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val jsonObj = JSONObject(response.body!!.string())
+                    val KT = response.code.toString()
+                    Log.d("서버응답_getMyReplyData", jsonObj.toString())
                     handler?.onResponse(jsonObj,KT)
                 }
             })

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".myPage.MypageFrag.MypageMyPostFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_myPost_myPostShowRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myPost_pagination1"
+            android:text="1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myPost_pagination2"
+            android:text="2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myPost_pagination3"
+            android:text="3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myPost_pagination4"
+            android:text="4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_myPost_paginationElse"
+            android:text="..."
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+</layout>

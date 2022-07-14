@@ -91,32 +91,32 @@ class testWriteDownActivity : BasicActivity() {
         var moveX = 0f
         var moveY = 0f
 
-//        newText.setOnTouchListener { v, event ->
-//            when(event.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    moveX = v.x - event.rawX
-//                    moveY = v.y - event.rawY
-//                    Log.d("newText_moveX",moveX.toString())
-//                    Log.d("newText_moveY",moveY.toString())
-//
-//
-//
-//                }
-//
-//                MotionEvent.ACTION_MOVE -> {
-//                    v.animate()
-//                        .x(event.rawX + moveX)
-//                        .y(event.rawY + moveY)
-//                        .setDuration(0)
-//                        .start()
-//
-//                    Log.d("newText_animateX", (event.rawX + moveX).toString())
-//                    Log.d("newText_animateY", (event.rawX + moveX).toString())
-//                }
-//            }
-//
-//            true
-//        }
+        newText.setOnTouchListener { v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    moveX = v.x - event.rawX
+                    moveY = v.y - event.rawY
+                    Log.d("newText_moveX",moveX.toString())
+                    Log.d("newText_moveY",moveY.toString())
+
+
+
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    v.animate()
+                        .x(event.rawX + moveX)
+                        .y(event.rawY + moveY)
+                        .setDuration(0)
+                        .start()
+
+                    Log.d("newText_animateX", (event.rawX + moveX).toString())
+                    Log.d("newText_animateY", (event.rawX + moveX).toString())
+                }
+            }
+
+            true
+        }
 
         newText.id = ViewCompat.generateViewId()
         Log.d("newText_id",newText.id.toString())
@@ -137,57 +137,57 @@ class testWriteDownActivity : BasicActivity() {
         lp.topMargin = 20
 
         newImage.layoutParams = lp
-        newImage.setOnClickListener {
-            clicker++
-            var curWidth = newImage.width
-            val originWidth = 150
-            var curHeight = newImage.height
-            val originHeight = 150
-            if(clicker<3){
-
-                newImage.layoutParams.width = curWidth + 100
-                newImage.layoutParams.height = curHeight + 100
-                newImage.requestLayout()
-            }
-            else if(clicker>=3){
-                clicker = 0
-                newImage.layoutParams.width = originWidth
-                newImage.layoutParams.height = originHeight
-                newImage.requestLayout()
-            }
-
-            Toast.makeText(mContext, "이미지가 생성되었습니다", Toast.LENGTH_SHORT).show()
-            Log.d("newText","클릭")
-        }
+//        newImage.setOnClickListener {
+//            clicker++
+//            var curWidth = newImage.width
+//            val originWidth = 150
+//            var curHeight = newImage.height
+//            val originHeight = 150
+//            if(clicker<3){
+//
+//                newImage.layoutParams.width = curWidth + 100
+//                newImage.layoutParams.height = curHeight + 100
+//                newImage.requestLayout()
+//            }
+//            else if(clicker>=3){
+//                clicker = 0
+//                newImage.layoutParams.width = originWidth
+//                newImage.layoutParams.height = originHeight
+//                newImage.requestLayout()
+//            }
+//
+//            Toast.makeText(mContext, "이미지가 생성되었습니다", Toast.LENGTH_SHORT).show()
+//            Log.d("newText","클릭")
+//        }
         var moveX = 0f
         var moveY = 0f
 
-//        newImage.setOnTouchListener { v, event ->
-//            when(event.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    moveX = v.x - event.rawX
-//                    moveY = v.y - event.rawY
-//                    Log.d("newText_moveX",moveX.toString())
-//                    Log.d("newText_moveY",moveY.toString())
-//
-//
-//
-//                }
-//
-//                MotionEvent.ACTION_MOVE -> {
-//                    v.animate()
-//                        .x(event.rawX + moveX)
-//                        .y(event.rawY + moveY)
-//                        .setDuration(0)
-//                        .start()
-//
-//                    Log.d("newText_animateX", (event.rawX + moveX).toString())
-//                    Log.d("newText_animateY", (event.rawX + moveX).toString())
-//                }
-//            }
-//
-//            true
-//        }
+        newImage.setOnTouchListener { v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    moveX = v.x - event.rawX
+                    moveY = v.y - event.rawY
+                    Log.d("newText_moveX",moveX.toString())
+                    Log.d("newText_moveY",moveY.toString())
+
+
+
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    v.animate()
+                        .x(event.rawX + moveX)
+                        .y(event.rawY + moveY)
+                        .setDuration(0)
+                        .start()
+
+                    Log.d("newText_animateX", (event.rawX + moveX).toString())
+                    Log.d("newText_animateY", (event.rawX + moveX).toString())
+                }
+            }
+
+            true
+        }
 
         newImage.id = ViewCompat.generateViewId()
         Log.d("newText_id",newImage.id.toString())

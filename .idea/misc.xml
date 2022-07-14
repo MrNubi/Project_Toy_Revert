@@ -17,6 +17,8 @@
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_join_us.xml" value="0.264" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_main.xml" value="0.2708333333333333" />
+        <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_mypage_board.xml" value="0.2" />
+        <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_search_test.xml" value="0.25364583333333335" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/activity_test_write_down.xml" value="0.1" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/dialog_avatara_choicer.xml" value="0.1203125" />
@@ -29,17 +31,21 @@
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_announce.xml" value="0.10885416666666667" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_gallery.xml" value="0.10885416666666667" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_hit.xml" value="0.10885416666666667" />
+        <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_mypage_my_post.xml" value="0.2390625" />
+        <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_mypage_my_reply.xml" value="0.25364583333333335" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_re_reply.xml" value="0.25" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_reply.xml" value="0.10729166666666666" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_sample.xml" value="0.1203125" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/fragment_samply_write_down.xml" value="0.25" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_announce_lv.xml" value="0.16" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_hit_recycler.xml" value="0.16799999999999998" />
+        <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_my_page_rv.xml" value="0.25364583333333335" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_reply.xml" value="0.1359375" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_rv_avatara_show_window.xml" value="0.1203125" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_rv_multifile.xml" value="0.25" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/item_sample_reply.xml" value="0.12447916666666667" />
         <entry key="..\:/New/Project_Toy_Revert/app/src/main/res/layout/main_saved.xml" value="0.136" />
+        <entry key="..\:/Users/jeahu/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/activity_list_item.xml" value="0.11770833333333333" />
       </map>
     </option>
   </component>

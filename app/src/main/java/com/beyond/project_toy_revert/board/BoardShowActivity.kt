@@ -249,7 +249,6 @@ class BoardShowActivity : BasicActivity() {
                             Log.d("여기_else_RcCode", RcCode.toString())
                             Log.d("여기_else_jsonObject", jsonObject.toString())
                             val likeCount = jsonObject.getInt("like_count")
-                            val myIdResult = jsonObject.getString("${myID}")
                             runOnUiThread {
                                 binding.txtBsowLikeCount.text = likeCount.toString()
                                 val animator = ValueAnimator.ofFloat(0.17f, 0f).setDuration(170)
