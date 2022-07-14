@@ -527,11 +527,12 @@ class serverUtil_okhttp {
             })
         }
         //*********************************************************************************
-        fun getMyData(context: Context,page:Int,type:String,handler: JsonResponseHandler_login?){
+        fun getMyData(context: Context,page:String,type:String,setting:String,handler: JsonResponseHandler_login?){
             val userID = Context_okhttp.getPk(context)
             Log.d("유저아이디",userID)
-            Log.d("유저유알엘","luckyfriends.kro.kr/users/${userID}/${type}?page=${page}")
-            val urlBuilder = "http://luckyfriends.kro.kr/users/${userID}/comment?page=${page}".toHttpUrlOrNull()!!.newBuilder()
+            //?page=를 type뒤에 입력 = pagination여부
+            Log.d("유저유알엘","luckyfriends.kro.kr/users/${setting}${userID}${type}${page}")
+            val urlBuilder = "http://luckyfriends.kro.kr/users/${setting}${userID}${type}${page}".toHttpUrlOrNull()!!.newBuilder()
                 .build()  // 쿼리파라미터를 담을게 없다. 바로 build()로 마무리
 
             var urlString = urlBuilder.toString()
@@ -558,6 +559,7 @@ class serverUtil_okhttp {
                 }
             })
         }
+
         //*********************************************************************************
         fun getReplyData(context: Context, handler: JsonResponseHandler_login?){
             val postedID = Context_okhttp.getPostId(context)

@@ -37,7 +37,7 @@ class MypageMyReplyFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        getMyReply(1)
+        getMyReply("1")
         setupEvents()
         setValues()
 
@@ -45,19 +45,19 @@ class MypageMyReplyFragment : BaseFragment() {
 
     override fun setupEvents() {
         binding.btnMyReplyPagination1.setOnClickListener {
-            getMyReply(1)
+            getMyReply("1")
         }
         binding.btnMyReplyPagination2.setOnClickListener {
-            getMyReply(2)
+            getMyReply("2")
         }
         binding.btnMyReplyPagination3.setOnClickListener {
-            getMyReply(3)
+            getMyReply("3")
         }
         binding.btnMyReplyPagination4.setOnClickListener {
-            getMyReply(4)
+            getMyReply("4")
         }
         binding.btnMyReplyPaginationElse.setOnClickListener {
-            getMyReply(5)
+            getMyReply("5")
         }
 
     }
@@ -66,25 +66,30 @@ class MypageMyReplyFragment : BaseFragment() {
 
     }
 
-    fun getMyReply(page:Int){
+    fun getMyReply(page:String){
         mrList = mutableListOf<HitRecyclerDataModel>()
-        serverUtil_okhttp.getMyData(mContext,page,"comment",object :serverUtil_okhttp.JsonResponseHandler_login{
+        serverUtil_okhttp.getMyData(mContext,page,"/comment?page=","",object :serverUtil_okhttp.JsonResponseHandler_login{
             override fun onResponse(jsonObject: JSONObject, RcCode: String) {
 
             if(RcCode=="200"){
                 Log.d("getMyReplyData_코드","200")
                 val myReplyData = jsonObject.getJSONArray("results")
                 val count = jsonObject.getInt("count")
-                if(count>10){
-                    binding.btnMyReplyPagination1.visibility = View.VISIBLE
-                    binding.btnMyReplyPagination2.visibility = View.VISIBLE
-                    if(count>20){
-                        binding.btnMyReplyPagination3.visibility = View.VISIBLE
-                        if(count>30){
-                            binding.btnMyReplyPagination4.visibility = View.VISIBLE
-                            if(count>50){
-                                binding.btnMyReplyPaginationElse.visibility = View.VISIBLE
-                    }}}}//if(count>10)
+                activity?.runOnUiThread{
+                    if (count > 10) {
+                        binding.btnMyReplyPagination1.visibility = View.VISIBLE
+                        binding.btnMyReplyPagination2.visibility = View.VISIBLE
+                        if (count > 20) {
+                            binding.btnMyReplyPagination3.visibility = View.VISIBLE
+                            if (count > 30) {
+                                binding.btnMyReplyPagination4.visibility = View.VISIBLE
+                                if (count > 50) {
+                                    binding.btnMyReplyPaginationElse.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }//if(count>10)
+                     }
 
 
                 val myReplyDataSize = myReplyData.length()

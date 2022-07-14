@@ -40,12 +40,32 @@ class MypageMyPostFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
+        getMyPost("1")
+        setupEvents()
 
     }
 
     override fun setupEvents() {
+        binding.btnMyPostPagination1.setOnClickListener {
+            getMyPost("1")
+        }
+        binding.btnMyPostPagination2.setOnClickListener {
+            getMyPost("2")
+        }
+
+        binding.btnMyPostPagination3.setOnClickListener {
+            getMyPost("3")
+        }
+
+        binding.btnMyPostPagination4.setOnClickListener {
+            getMyPost("4")
+        }
+
+        binding.btnMyPostPaginationElse.setOnClickListener {
+            getMyPost("5")
+        }
+
+
 
     }
 
@@ -53,25 +73,16 @@ class MypageMyPostFragment : BaseFragment() {
 
     }
 
-    fun getMyPost(page:Int){
+    fun getMyPost(page:String){
         mpList = mutableListOf<HitRecyclerDataModel>()
-        serverUtil_okhttp.getMyData(mContext,page,"post",object :serverUtil_okhttp.JsonResponseHandler_login{
+        serverUtil_okhttp.getMyData(mContext,page,"/post?page=","",object :serverUtil_okhttp.JsonResponseHandler_login{
             override fun onResponse(jsonObject: JSONObject, RcCode: String) {
 
                 if(RcCode=="200"){
                     Log.d("getMyReplyData_코드","200")
                     val myReplyData = jsonObject.getJSONArray("results")
                     val count = jsonObject.getInt("count")
-                    if(count>10){
-                        binding.btnMyPostPagination1.visibility = View.VISIBLE
-                        binding.btnMyPostPagination2.visibility = View.VISIBLE
-                        if(count>20){
-                            binding.btnMyPostPagination3.visibility = View.VISIBLE
-                            if(count>30){
-                                binding.btnMyPostPagination4.visibility = View.VISIBLE
-                                if(count>50){
-                                    binding.btnMyPostPaginationElse.visibility = View.VISIBLE
-                                }}}}//if(count>10)
+
 
 
                     val myReplyDataSize = myReplyData.length()
@@ -109,6 +120,16 @@ class MypageMyPostFragment : BaseFragment() {
                         }
                     }//for
                     activity?.runOnUiThread{
+                        if(count>10){
+                            binding.btnMyPostPagination1.visibility = View.VISIBLE
+                            binding.btnMyPostPagination2.visibility = View.VISIBLE
+                            if(count>20){
+                                binding.btnMyPostPagination3.visibility = View.VISIBLE
+                                if(count>30){
+                                    binding.btnMyPostPagination4.visibility = View.VISIBLE
+                                    if(count>50){
+                                        binding.btnMyPostPaginationElse.visibility = View.VISIBLE
+                                    }}}}//if(count>10)
                         mpAdapter = myPageMyReplyAdapter(mpList)
                         binding.rvMyPostMyPostShowRv.adapter = mpAdapter
                         binding.rvMyPostMyPostShowRv.layoutManager = LinearLayoutManager(mContext)

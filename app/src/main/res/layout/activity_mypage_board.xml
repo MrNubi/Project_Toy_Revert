@@ -98,15 +98,27 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5">
+        android:layout_weight="0.25">
+        <TextView
+            android:textSize="30dp"
+            android:gravity="center"
+            android:id="@+id/txt_myPage_introduceMySelf"
+            android:text="자기소개 미설정"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_myPage_FragmentSwiperTab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-
-
     </LinearLayout>
+
     <!--    하프라인      -->
     <LinearLayout
         android:orientation="vertical"
