@@ -22,8 +22,8 @@ import org.json.JSONObject
 
 class MypageMyPostFragment : BaseFragment() {
     private lateinit var binding:FragmentMypageMyPostBinding
-    lateinit var mpAdapter: myPageMyReplyAdapter
-    var mpList = mutableListOf<HitRecyclerDataModel>()
+    private lateinit var mpAdapter: myPageMyReplyAdapter
+    private var mpList = mutableListOf<HitRecyclerDataModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

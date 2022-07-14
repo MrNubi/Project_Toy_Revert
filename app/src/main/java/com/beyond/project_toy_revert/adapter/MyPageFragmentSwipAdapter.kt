@@ -31,7 +31,7 @@ class MyPageFragmentSwipAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) 
             0-> "내가 쓴 글"
             1 -> "내가 쓴 댓글"
             2 -> "좋아요 한 글"
-            3 -> "스크랩"
+            3 -> "팔로우"
             else -> "내가 쓴 글"
         }
     }
