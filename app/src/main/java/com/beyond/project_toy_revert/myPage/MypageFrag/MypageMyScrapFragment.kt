@@ -70,6 +70,7 @@ class MypageMyScrapFragment : BaseFragment() {
             getMyFallow("5")
         }
 
+
     }
     fun getMyFallow(page:String){
         mpList = mutableListOf<HitRecyclerDataModel>()

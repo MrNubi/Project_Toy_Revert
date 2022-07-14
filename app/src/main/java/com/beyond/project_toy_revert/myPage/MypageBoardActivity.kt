@@ -1,5 +1,6 @@
 package com.beyond.project_toy_revert.myPage
 
+import android.content.Intent
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import com.beyond.project_toy_revert.R
 import com.beyond.project_toy_revert.adapter.MainFragAdapter
 import com.beyond.project_toy_revert.adapter.MyPageFragmentSwipAdapter
 import com.beyond.project_toy_revert.api.serverUtil_okhttp
+import com.beyond.project_toy_revert.avatara.AvataraActivity
 import com.beyond.project_toy_revert.databinding.ActivityMypageBoardBinding
 import com.beyond.project_toy_revert.inheritance.BasicActivity
 import com.beyond.project_toy_revert.util.Context_okhttp
@@ -30,6 +32,13 @@ class MypageBoardActivity : BasicActivity() {
         settingIntroducePage()
         setAbatara()
         settingIntroducePage()
+        clickEvent()
+    }
+    fun clickEvent(){
+        binding.imgMypageAvataraHead.setOnClickListener {
+            val aIntent = Intent(mContext,AvataraActivity::class.java)
+            startActivity(aIntent)
+        }
     }
 
     fun settingIntroducePage(){
@@ -40,11 +49,15 @@ class MypageBoardActivity : BasicActivity() {
                 val myFallowingCount = jsonObject.getInt("following_count")
                 val myFallowerCount = jsonObject.getInt("follower_count")
                 val myPostCount = jsonObject.getInt("post_count")
+                val aboutMe:String?= jsonObject.getString("about_me")
+                val aboutMeNullchecked = if(aboutMe=="null")"자기소개 미작성" else aboutMe
+                Log.d("내소개",aboutMeNullchecked.toString())
 
                 runOnUiThread {
                     binding.btnMyPageFallowerCount.text = "팔로워\n${myFallowerCount}"
                     binding.btnMyPageFallowingCount.text = "팔로잉\n${myFallowingCount}"
                     binding.btnMyPageMyWriteCount.text = "내가 쓴 글\n${myPostCount}"
+                    binding.txtMyPageIntroduceMySelf.text = "${aboutMeNullchecked}"
                 }
             }
         })
