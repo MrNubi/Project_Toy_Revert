@@ -14,31 +14,37 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="10dp"
-        android:background="@drawable/background"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/background">
 
         <ImageView
             android:id="@+id/img_mypage_avataraHead"
-            android:layout_width="129dp"
-            android:layout_height="173dp"
+            android:layout_width="128dp"
+            android:layout_height="165dp"
             android:src="@drawable/samp_head_cut"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_mypage_avataraHat"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/img_mypage_avataraHat"
             android:layout_width="82dp"
             android:layout_height="46dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/samp_hat1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.086" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
@@ -113,10 +119,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.25">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_myPage_FragmentSwiperTab"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:contentDescription="@string/Fail" />
     </LinearLayout>
 
     <!--    하프라인      -->
@@ -129,7 +137,8 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager2_myPage_fragmentSwiperZone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:contentDescription="@string/Fail" />
     </LinearLayout>
 
 </LinearLayout>
