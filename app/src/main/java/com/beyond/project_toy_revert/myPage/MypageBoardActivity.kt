@@ -58,10 +58,10 @@ class MypageBoardActivity : BasicActivity() {
                     binding.btnMyPageFallowingCount.text = "팔로잉\n${myFallowingCount}"
                     binding.btnMyPageMyWriteCount.text = "내가 쓴 글\n${myPostCount}"
                     binding.txtMyPageIntroduceMySelf.text = "${aboutMeNullchecked}"
-                }
-            }
-        })
-    }
+                }//runOnUiThread
+            }})
+    }//fun settingIntroducePage()
+
     fun setAbatara(){
         serverUtil_okhttp.getMyData(mContext,"","/avatar","",object :serverUtil_okhttp.JsonResponseHandler_login{
             override fun onResponse(jsonObject: JSONObject, RcCode: String) {
@@ -70,31 +70,24 @@ class MypageBoardActivity : BasicActivity() {
                var body = abataraCode.getString("upper_body")
                var showes = abataraCode.getString("lower_body")
                runOnUiThread{
-                   if (head == "1") {
-                       Glide.with(mContext).load(R.drawable.samp_hat1)
-                           .into(binding.imgMypageAvataraHat)
+
+                   when(head){
+                       "1" -> Glide.with(mContext).load(R.drawable.samp_hat1).into(binding.imgMypageAvataraHat)
+                       "2" ->  Glide.with(mContext).load(R.drawable.samp_hat2).into(binding.imgMypageAvataraHat)
+                       else -> Log.d("에러 - head is not 1 or 2"," ${head}", Throwable())
                    }
-                   if (head == "2") {
-                       Glide.with(mContext).load(R.drawable.samp_hat2)
-                           .into(binding.imgMypageAvataraHat)
-                   }
-                   if (body == "1") {
-                       Glide.with(mContext).load(R.drawable.samp_head_cut)
-                           .into(binding.imgMypageAvataraHead)
-                   }
-                   if (body == "0") {
-                       Glide.with(mContext).load(R.drawable.samp_head_cut)
-                           .into(binding.imgMypageAvataraHead)
-                   }
-                   if (body == "2") {
-                       Glide.with(mContext).load(R.drawable.samp_head_cut2)
-                           .into(binding.imgMypageAvataraHead)
-                   } else {
-                       Log.d("아바타 오류", "모자:${head}, 머리:${body}")
-                   }
-               }
+                   when(body){
+                       "0" -> Glide.with(mContext).load(R.drawable.samp_head_cut).into(binding.imgMypageAvataraHead)
+                       "1" -> Glide.with(mContext).load(R.drawable.samp_head_cut).into(binding.imgMypageAvataraHead)
+                       "2" -> Glide.with(mContext).load(R.drawable.samp_head_cut2).into(binding.imgMypageAvataraHead)
+                       else -> Log.d("아바타 오류", "모자:${head}, 머리:${body}")
+                   }//when(body)
+
+               }//runOnUiThread
 
             }
         })
-    }
+    }//fun setAbatara()
+
+
 }

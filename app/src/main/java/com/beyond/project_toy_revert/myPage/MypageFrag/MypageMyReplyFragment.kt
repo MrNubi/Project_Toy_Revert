@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.beyond.project_toy_revert.R
@@ -40,8 +41,27 @@ class MypageMyReplyFragment : BaseFragment() {
         getMyReply("1")
         setupEvents()
         setValues()
+        binding.searchViewMyReplyMyPostSearch.setOnQueryTextListener(searchViewTextListener())
 
     }
+
+    fun searchViewTextListener(): androidx.appcompat.widget.SearchView.OnQueryTextListener? =
+        object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            //검색버튼 입력시 호출, 검색버튼이 없으므로 사용하지 않음
+            override fun onQueryTextSubmit(s: String): Boolean {
+                mrAdapter.getFilter().filter(s)
+                Log.d("서치뷰_검색버튼눌림", "SearchVies Text is changed : $s")
+                return false
+            }
+
+            //텍스트 입력/수정시에 호출
+            override fun onQueryTextChange(s: String): Boolean {
+                mrAdapter.getFilter().filter(s)
+                Log.d("서치뷰", "SearchVies Text is changed : $s")
+                return false
+            }
+        }
 
     override fun setupEvents() {
         binding.btnMyReplyPagination1.setOnClickListener {

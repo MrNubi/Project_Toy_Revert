@@ -8,6 +8,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".myPage.MypageFrag.MypageMyReplyFragment">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView_myReply_myPostSearch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:backgroundTint="#6175E4"
